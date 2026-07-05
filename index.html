@@ -1,0 +1,1674 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="only light">
+<title>לומדת מתמטיקה – כיתה ז'</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: only light;
+    --ink:#26306b;        /* deep navy ink */
+    --ink2:#4a5578;
+    --paper:#fdfaf1;
+    --grid:rgba(59,96,222,.08);
+    --g:#16a34a;  --gl:#dcfce7; --gd:#116334;
+    --o:#ea580c;  --ol:#ffedd5; --od:#b34101;
+    --p:#7c3aed;  --pl:#ede9fe; --pd:#5b21b6;
+    --blue:#2f56d9;
+    --yell:#fde047;
+    --ok:#16a34a; --bad:#dc2626;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:"Heebo","Segoe UI","Arial Hebrew",Arial,sans-serif;
+    color:var(--ink);
+    direction:rtl;
+    min-height:100vh;
+    background-color:#fdfaf1;
+    background-image:
+      linear-gradient(var(--grid) 1.5px, transparent 1.5px),
+      linear-gradient(90deg, var(--grid) 1.5px, transparent 1.5px);
+    background-size:26px 26px;
+  }
+  .ltr{direction:ltr;unicode-bidi:isolate;display:inline-block;}
+  .wrap{max-width:880px;margin:0 auto;padding:18px 14px 70px;}
+  .screen{display:none;animation:fadeIn .35s ease;}
+  .screen.active{display:block;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  @keyframes pop{0%{transform:scale(.7)}70%{transform:scale(1.1)}100%{transform:scale(1)}}
+  @keyframes floaty{from{transform:translateY(0) rotate(var(--r,0deg))}to{transform:translateY(-14px) rotate(var(--r,0deg))}}
+
+  button{font-family:inherit;color:var(--ink);}
+
+  /* ============ HOME ============ */
+  .hero{position:relative;text-align:center;padding:34px 10px 10px;}
+  .hero .sym{
+    position:absolute;font-size:30px;font-weight:900;opacity:.35;pointer-events:none;user-select:none;
+    animation:floaty 3.5s ease-in-out infinite alternate;
+  }
+  .hero .logo{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:92px;height:92px;border-radius:50%;font-size:46px;
+    background:#fff;border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);
+    animation:pop .6s ease;
+  }
+  .hero h1{margin:16px 0 6px;font-size:34px;font-weight:900;color:var(--ink);}
+  .hero h1 .hl{
+    background:linear-gradient(transparent 52%, var(--yell) 52%, var(--yell) 94%, transparent 94%);
+    padding:0 8px;
+  }
+  .hero .sub{color:var(--ink2);font-size:17px;font-weight:600;margin:0;}
+  .hero .cta{
+    display:inline-block;margin-top:14px;background:#fff;border:2px dashed var(--ink);
+    border-radius:999px;padding:7px 20px;font-weight:800;font-size:15px;transform:rotate(-1deg);
+  }
+  .levels{display:grid;gap:22px;margin-top:30px;}
+  @media(min-width:660px){.levels{grid-template-columns:repeat(3,1fr);}}
+  .levelBtn{
+    position:relative;cursor:pointer;text-align:center;
+    background:#fff;border:3px solid var(--ink);border-radius:20px;
+    box-shadow:7px 7px 0 var(--ink);
+    padding:30px 16px 20px;
+    transition:transform .15s, box-shadow .15s;
+  }
+  .lv1{transform:rotate(-1.3deg);} .lv2{transform:rotate(1deg);} .lv3{transform:rotate(-.7deg);}
+  .levelBtn:hover{transform:rotate(0) translate(-3px,-3px);box-shadow:11px 11px 0 var(--ink);}
+  .levelBtn::before{ /* masking tape */
+    content:"";position:absolute;top:-14px;right:50%;width:96px;height:26px;
+    transform:translateX(50%) rotate(-4deg);
+    background:rgba(253,224,71,.85);border-radius:3px;
+    box-shadow:0 1px 2px rgba(0,0,0,.12);
+  }
+  .levelBtn .em{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:74px;height:74px;border-radius:50%;font-size:38px;
+    border:3px solid var(--ink);margin-bottom:10px;
+  }
+  .lv1 .em{background:var(--gl);} .lv2 .em{background:var(--ol);} .lv3 .em{background:var(--pl);}
+  .levelBtn .tag{
+    display:inline-block;border-radius:999px;padding:4px 16px;font-size:13.5px;font-weight:900;color:#fff;
+    border:2px solid var(--ink);margin-bottom:6px;
+  }
+  .lv1 .tag{background:var(--g);} .lv2 .tag{background:var(--o);} .lv3 .tag{background:var(--p);}
+  .levelBtn h2{margin:6px 0 4px;font-size:26px;font-weight:900;color:var(--ink);}
+  .levelBtn p{margin:6px 0 0;color:var(--ink2);font-size:14.5px;line-height:1.55;font-weight:500;}
+  .levelBtn p b{color:var(--ink);}
+  .homeFoot{
+    margin-top:34px;text-align:center;color:var(--ink2);font-size:14px;font-weight:600;
+    background:#fff;border:2px solid var(--ink);border-radius:14px;padding:12px 16px;
+    box-shadow:4px 4px 0 rgba(38,48,107,.25);
+  }
+  .homeFoot b{color:var(--ink);}
+
+  /* ============ CARDS / GENERAL ============ */
+  .card{background:#fff;border:3px solid var(--ink);border-radius:20px;box-shadow:7px 7px 0 var(--ink);padding:26px;}
+  .regCard{max-width:470px;margin:44px auto 0;text-align:center;position:relative;}
+  .regCard::before{
+    content:"";position:absolute;top:-14px;right:50%;width:110px;height:26px;
+    transform:translateX(50%) rotate(3deg);background:rgba(253,224,71,.85);border-radius:3px;
+  }
+  .regCard .em{font-size:52px;}
+  .regCard h2{margin:8px 0 2px;font-weight:900;font-size:26px;}
+  .regCard .sub{color:var(--ink2);margin-bottom:20px;font-weight:600;}
+  .field{text-align:right;margin-bottom:14px;}
+  .field label{display:block;font-weight:800;margin-bottom:6px;font-size:15px;color:var(--ink);}
+  .field input{
+    width:100%;padding:12px 14px;border-radius:12px;border:2.5px solid var(--ink);font-size:17px;font-family:inherit;
+    outline:none;background:#fff;color:var(--ink);box-shadow:3px 3px 0 rgba(38,48,107,.2);
+  }
+  .field input:focus{box-shadow:3px 3px 0 var(--blue);border-color:var(--blue);}
+  .bigBtn{
+    display:inline-block;cursor:pointer;
+    border:2.5px solid var(--ink);border-radius:14px;padding:12px 34px;
+    font-size:18px;font-weight:900;color:#fff !important;
+    box-shadow:4px 4px 0 var(--ink);transition:transform .12s, box-shadow .12s;
+  }
+  .bigBtn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink);}
+  .bigBtn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink);}
+  .bigBtn:disabled{opacity:.4;cursor:not-allowed;}
+  .ghostBtn{background:none;border:none;color:var(--ink2);font-size:14px;cursor:pointer;margin-top:16px;text-decoration:underline;font-weight:600;}
+  .regErr{color:var(--bad);font-size:14px;min-height:20px;margin-top:4px;font-weight:800;}
+
+  /* ============ EXERCISE ============ */
+  .topbar{
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;
+    background:#fff;border:2.5px solid var(--ink);border-radius:14px;padding:10px 16px;
+    box-shadow:4px 4px 0 rgba(38,48,107,.25);margin-bottom:18px;
+  }
+  .topbar .who{font-weight:800;font-size:15px;color:var(--ink);}
+  .topbar .who small{color:var(--ink2);font-weight:600;}
+  .chip{border-radius:999px;color:#fff;font-weight:900;font-size:13px;padding:4px 14px;border:2px solid var(--ink);}
+  .timer{font-variant-numeric:tabular-nums;font-weight:800;color:var(--ink2);font-size:14px;}
+  .dots{display:flex;gap:8px;align-items:center;}
+  .dot{width:13px;height:13px;border-radius:3px;transform:rotate(45deg);background:#e3e7f4;border:2px solid var(--ink);transition:all .2s;font-size:0;}
+  .dot.cur{transform:rotate(45deg) scale(1.35);background:var(--yell);}
+  .dot.done{background:currentColor;}
+  .exCard{
+    position:relative;background:#fff;border:3px solid var(--ink);border-radius:18px;
+    box-shadow:7px 7px 0 var(--ink);padding:24px 24px 24px 20px;
+    background-image:linear-gradient(to left, transparent 0, transparent 42px, #fca5a5 42px, #fca5a5 44.5px, transparent 44.5px);
+  }
+  .exCard > *{position:relative;}
+  .exTitle{display:flex;align-items:center;gap:10px;margin:0 0 4px;font-size:23px;font-weight:900;color:var(--ink);}
+  .exTitle .em{font-size:32px;}
+  .exGoal{
+    color:var(--ink);font-size:14.5px;margin:0 0 16px;font-weight:600;
+    background:var(--yell);display:inline-block;padding:3px 12px;border-radius:8px;transform:rotate(-.5deg);
+    border:1.5px solid rgba(38,48,107,.35);
+  }
+  /* chalkboard */
+  .bigexp{
+    font-size:30px;text-align:center;font-weight:800;color:#f6f8ff;
+    background:#233066;
+    background-image:radial-gradient(rgba(255,255,255,.06) 8%, transparent 8%);
+    background-size:30px 30px;
+    border:6px solid #b07a3f;border-radius:10px;
+    box-shadow:inset 0 0 30px rgba(0,0,0,.35), 4px 4px 0 rgba(38,48,107,.3);
+    padding:16px 10px;margin:8px auto 16px;max-width:440px;
+    text-shadow:0 0 6px rgba(255,255,255,.25);
+  }
+  .instr{font-size:16.5px;font-weight:700;color:var(--ink);line-height:1.6;}
+  .step{margin-top:20px;padding-top:16px;border-top:2px dashed #c6cdea;}
+  .step-q{font-weight:800;font-size:16.5px;margin-bottom:12px;color:var(--ink);line-height:1.6;}
+  .opts{display:flex;flex-wrap:wrap;gap:12px;}
+  .opt{
+    border:2.5px solid var(--ink);background:#fff;border-radius:12px;padding:10px 18px;font-size:16px;cursor:pointer;
+    font-weight:700;color:var(--ink);box-shadow:3px 3px 0 var(--ink);
+    transition:transform .12s, box-shadow .12s, background .15s;
+  }
+  .opt:hover:not(:disabled){transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink);background:#fffbe8;}
+  .opt.right{background:#bbf7d0;animation:pop .4s;}
+  .opt.wrong{background:#fecaca;animation:shake .4s;}
+  .opt:disabled{cursor:default;opacity:.8;box-shadow:2px 2px 0 rgba(38,48,107,.4);}
+  .inrow{display:flex;gap:10px;align-items:center;}
+  .numin{
+    width:130px;padding:10px 12px;border-radius:10px;border:2.5px solid var(--ink);font-size:20px;text-align:center;
+    font-family:inherit;font-weight:800;outline:none;background:#fff;color:var(--ink);
+    box-shadow:3px 3px 0 rgba(38,48,107,.25);
+  }
+  .numin:focus{border-color:var(--blue);}
+  .numin.ok{background:#bbf7d0;}
+  .numin.err{background:#fecaca;animation:shake .4s;}
+  .check{
+    border:2.5px solid var(--ink);border-radius:10px;padding:10px 22px;background:var(--blue);
+    color:#fff !important;font-weight:900;font-size:15px;cursor:pointer;box-shadow:3px 3px 0 var(--ink);
+    transition:transform .12s, box-shadow .12s;
+  }
+  .check:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink);}
+  .check:disabled{opacity:.4;cursor:default;}
+  .fb{
+    margin-top:18px;border-radius:12px;padding:13px 16px;font-size:16px;font-weight:700;display:none;line-height:1.6;
+    border:2.5px solid var(--ink);color:var(--ink);
+  }
+  .fb.show{display:block;animation:fadeIn .25s;}
+  .fb.good{background:#d8f7e3;box-shadow:3px 3px 0 var(--g);}
+  .fb.bad{background:#fee2e2;box-shadow:3px 3px 0 var(--bad);}
+  .fb.rev{background:#fff3cd;box-shadow:3px 3px 0 #d99b00;}
+  .numin.rev{background:#fff3cd;border-color:#d99b00;}
+  .classroomBox{
+    margin-top:24px;text-align:center;font-size:17px;font-weight:800;color:var(--ink);
+    background:var(--yell);border:2.5px solid var(--ink);border-radius:14px;padding:14px 18px;
+    box-shadow:4px 4px 0 rgba(38,48,107,.3);
+  }
+  .nextRow{margin-top:20px;text-align:center;display:none;}
+  .nextRow.show{display:block;}
+
+  /* visuals */
+  .visBox{
+    background:#f6f9ff;border:2.5px solid var(--ink);border-radius:14px;padding:14px;margin:12px 0;text-align:center;
+    box-shadow:3px 3px 0 rgba(38,48,107,.2);
+  }
+  svg{max-width:100%;height:auto;}
+  .latt{cursor:pointer;}
+  .visHint{
+    display:inline-block;margin-top:8px;font-size:14px;font-weight:800;color:var(--ink);
+    background:var(--yell);border-radius:8px;padding:3px 12px;border:1.5px solid rgba(38,48,107,.35);
+  }
+  .visHint.shake{animation:shake .4s;}
+
+  /* elevator */
+  .elevWrap{display:flex;justify-content:center;gap:14px;align-items:stretch;}
+  .shaft{position:relative;width:72px;height:280px;background:linear-gradient(#dbeafe 0 57%, #e7d8bb 57% 100%);border-radius:10px;border:2.5px solid var(--ink);}
+  .shaft .ground{position:absolute;right:-8px;left:-8px;top:57%;border-top:4px solid #8a5a2b;font-size:0;}
+  .elev{position:absolute;right:0;left:0;text-align:center;font-size:30px;transition:top 1s ease;}
+  .floorLbls{position:relative;width:48px;height:280px;font-size:13px;color:var(--ink2);font-weight:800;}
+  .floorLbls span{position:absolute;right:0;transform:translateY(-50%);}
+
+  /* geoboard */
+  .meters{display:flex;justify-content:center;gap:14px;margin-top:10px;flex-wrap:wrap;}
+  .meter{background:#fff;border:2.5px solid var(--ink);border-radius:12px;padding:8px 18px;font-weight:800;font-size:16px;box-shadow:3px 3px 0 rgba(38,48,107,.25);color:var(--ink);}
+  .meter b{font-size:22px;}
+  .meter.area b{color:var(--od);} .meter.perim b{color:var(--blue);}
+  .cornerCell{cursor:pointer;}
+  .cornerCell:hover{stroke:#dc2626;stroke-width:3;}
+
+  /* notebook (error hunt) */
+  .notebook{
+    background:repeating-linear-gradient(#fffdf5,#fffdf5 34px,#e6dfc6 35px);
+    border:2.5px solid var(--ink);border-radius:10px;padding:6px 18px;max-width:340px;margin:0 auto;
+    box-shadow:4px 4px 0 rgba(38,48,107,.3);
+  }
+  .nbLine{font-size:21px;line-height:35px;cursor:pointer;border-radius:6px;padding:0 8px;font-weight:700;color:#2a3550;}
+  .nbLine:hover{background:#fff3b8;}
+  .nbLine.picked-bad{background:#fee2e2;}
+  .nbLine.picked-good{background:#ffe1e1;outline:2.5px solid var(--bad);position:relative;}
+  .nbLine.picked-good::after{content:"✗";color:var(--bad);font-weight:900;margin-right:8px;}
+
+  /* balance */
+  .balance{display:flex;flex-direction:column;align-items:center;}
+  .beam{width:280px;height:9px;background:#7a5a2e;border-radius:6px;border:1.5px solid var(--ink);}
+  .pans{display:flex;justify-content:space-between;width:320px;margin-top:-4px;}
+  .pan{
+    width:132px;background:#f3e7d3;border:2.5px solid var(--ink);border-bottom-left-radius:50px;border-bottom-right-radius:50px;
+    padding:10px 6px 16px;text-align:center;font-size:20px;min-height:64px;color:var(--ink);font-weight:600;
+  }
+  .pillar{width:14px;height:52px;background:#7a5a2e;margin:0 auto;border-radius:4px;border:1.5px solid var(--ink);}
+
+  /* bars (modeling) */
+  .barsWrap{display:flex;justify-content:center;gap:44px;align-items:flex-end;height:235px;margin-bottom:8px;}
+  .barCol{text-align:center;}
+  .bar{width:76px;border-radius:8px 8px 0 0;transition:height .8s ease;position:relative;margin:0 auto;border:2.5px solid var(--ink);border-bottom:none;}
+  .bar .weight{
+    position:absolute;top:-36px;right:0;left:0;font-size:14px;font-weight:900;background:var(--yell);
+    border-radius:8px;padding:3px;display:none;border:2px solid var(--ink);color:var(--ink);
+  }
+  .bar .weight.show{display:block;animation:pop .4s;}
+  .barName{font-weight:800;margin-top:6px;color:var(--ink);}
+
+  /* machines */
+  .machines{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:8px;}
+  .machine{
+    background:linear-gradient(#eef3fb,#dce6f5);border:2.5px solid var(--ink);border-radius:14px;padding:14px 8px;text-align:center;
+    cursor:pointer;transition:transform .12s, box-shadow .12s;box-shadow:4px 4px 0 var(--ink);color:var(--ink);
+  }
+  .machine:hover:not(:disabled){transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink);}
+  .machine .gear{font-size:30px;}
+  .machine .mexp{font-size:19px;font-weight:800;margin-top:6px;}
+  .machine.ok{background:#bbf7d0;animation:pop .4s;}
+  .machine.broken{background:#fecaca;animation:shake .45s;}
+  .machine:disabled{cursor:default;opacity:.85;}
+
+  /* sorting boxes */
+  .sortCards{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:16px;}
+  .sCard{
+    border:2.5px solid var(--ink);background:#fff;border-radius:10px;padding:9px 16px;font-size:19px;font-weight:800;cursor:pointer;
+    transition:all .15s;box-shadow:3px 3px 0 var(--ink);color:var(--ink);
+  }
+  .sCard.sel{background:var(--yell);transform:translate(-2px,-2px) scale(1.05);box-shadow:5px 5px 0 var(--ink);}
+  .sCard.placed{opacity:0;pointer-events:none;position:absolute;}
+  .sortBoxes{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+  .sBox{
+    min-width:180px;min-height:120px;border:3px dashed var(--ink);border-radius:14px;padding:10px;background:#fff;cursor:pointer;flex:1;max-width:260px;
+  }
+  .sBox h4{margin:0 0 8px;font-size:22px;text-align:center;color:var(--ink);}
+  .sBox .got{display:flex;flex-direction:column;gap:6px;align-items:center;}
+  .sBox .got span{background:#bbf7d0;border:2px solid var(--ink);border-radius:8px;padding:4px 12px;font-weight:800;font-size:17px;color:var(--ink);}
+  .sBox.flash{border-color:var(--bad);animation:shake .4s;}
+
+  /* picture match */
+  .picCards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+  .picCard{
+    border:2.5px solid var(--ink);border-radius:16px;background:#fff;padding:16px;cursor:pointer;text-align:center;
+    transition:transform .12s, box-shadow .12s;box-shadow:4px 4px 0 var(--ink);
+  }
+  .picCard:hover:not(:disabled){transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink);}
+  .picCard .pic{font-size:34px;letter-spacing:2px;}
+  .picCard p{margin:8px 0 0;font-size:15px;color:var(--ink);font-weight:600;line-height:1.55;}
+  .picCard.right{background:#bbf7d0;animation:pop .4s;}
+  .picCard.wrong{background:#fecaca;animation:shake .4s;}
+
+  /* chat */
+  .chat{
+    background:#e7efe2;border:2.5px solid var(--ink);border-radius:14px;padding:14px;max-height:430px;overflow-y:auto;
+    display:flex;flex-direction:column;gap:10px;box-shadow:inset 0 0 14px rgba(38,48,107,.08);
+  }
+  .bub{max-width:85%;border-radius:14px;padding:10px 14px;font-size:15.5px;line-height:1.6;border:2px solid var(--ink);color:var(--ink);}
+  .bub.bot{background:#fff;align-self:flex-start;border-bottom-right-radius:4px;}
+  .bub.me{background:#d3f0c2;align-self:flex-end;border-bottom-left-radius:4px;white-space:pre-wrap;}
+  .bub .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+  .chatRow{display:flex;gap:8px;margin-top:12px;}
+  .chatRow textarea{
+    flex:1;border-radius:12px;border:2.5px solid var(--ink);padding:10px 12px;font-family:inherit;font-size:15.5px;
+    resize:vertical;min-height:64px;outline:none;color:var(--ink);background:#fff;
+  }
+  .chatRow button{align-self:flex-end;}
+
+  /* reasoning chips */
+  .rchips{display:flex;flex-direction:column;gap:12px;align-items:stretch;max-width:470px;margin:0 auto;}
+  .rchips .opt{text-align:center;}
+  .distort{animation:distort 1s ease;}
+  @keyframes distort{0%,100%{transform:none}30%{transform:skewX(14deg) scale(1.05)}60%{transform:skewX(-10deg)}}
+
+  /* ============ SUMMARY ============ */
+  .sumHead{text-align:center;padding:12px 0 4px;}
+  .sumHead .em{
+    display:inline-flex;align-items:center;justify-content:center;width:88px;height:88px;border-radius:50%;
+    font-size:44px;background:#fff;border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);animation:pop .6s;
+  }
+  .sumHead h2{margin:12px 0 2px;font-size:30px;font-weight:900;}
+  .sumHead p{color:var(--ink2);margin:0;font-weight:600;}
+  .infoChips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0 20px;}
+  .infoChips span{background:#fff;border:2px solid var(--ink);border-radius:999px;padding:6px 16px;font-weight:800;font-size:14px;box-shadow:2px 2px 0 rgba(38,48,107,.3);}
+  .statGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:20px;}
+  .statCard{background:#fff;border:2.5px solid var(--ink);border-radius:14px;padding:14px;text-align:center;box-shadow:4px 4px 0 rgba(38,48,107,.3);}
+  .statCard b{display:block;font-size:30px;font-weight:900;}
+  .statCard small{color:var(--ink2);font-weight:800;}
+  table.sumTbl{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:2.5px solid var(--ink);border-radius:14px;overflow:hidden;box-shadow:4px 4px 0 rgba(38,48,107,.3);}
+  .sumTbl th{background:var(--ink);color:#fff;padding:10px 8px;font-size:14px;}
+  .sumTbl td{padding:9px 8px;border-bottom:1.5px solid #e6e9f5;font-size:14px;text-align:center;color:var(--ink);font-weight:600;}
+  .sumTbl tr:last-child td{border-bottom:none;}
+  .sumTbl td:first-child{text-align:right;font-weight:800;}
+  .insights{background:#fff8dc;border:2.5px solid var(--ink);border-radius:14px;padding:14px 18px;margin-top:18px;box-shadow:4px 4px 0 rgba(38,48,107,.3);}
+  .insights h3{margin:0 0 8px;font-size:17px;color:var(--ink);}
+  .insights li{margin-bottom:5px;font-size:14.5px;color:var(--ink);font-weight:600;}
+  .insights p{color:var(--ink);}
+  .storyBox{background:#eaf2ff;border:2.5px solid var(--ink);border-radius:14px;padding:14px 18px;margin-top:14px;font-size:14.5px;color:var(--ink);font-weight:600;box-shadow:4px 4px 0 rgba(38,48,107,.3);}
+  .sumBtns{text-align:center;margin-top:24px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+  .printHint{text-align:center;color:var(--ink2);font-size:13px;margin-top:10px;font-weight:600;}
+
+  /* ============ PRINT ============ */
+  #printArea{display:none;}
+  @media print{
+    body{background:#fff;}
+    body > .wrap{display:none!important;}
+    #printArea{display:block;padding:20px;font-size:13px;color:#000;font-family:"Heebo","Segoe UI",Arial,sans-serif;}
+    #printArea h1{font-size:22px;margin:0 0 2px;}
+    #printArea .pMeta{margin:8px 0 14px;}
+    #printArea .pMeta span{display:inline-block;border:1px solid #999;border-radius:8px;padding:3px 10px;margin:0 0 4px 6px;font-weight:700;}
+    #printArea table{width:100%;border-collapse:collapse;margin-top:8px;}
+    #printArea th,#printArea td{border:1px solid #999;padding:6px;text-align:center;}
+    #printArea td:first-child{text-align:right;}
+    #printArea .pIns{margin-top:14px;border:1px solid #999;border-radius:8px;padding:10px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ================= HOME ================= -->
+  <section id="scr-home" class="screen active">
+    <div class="hero">
+      <span class="sym" style="top:6px;right:6%;color:#ea580c;--r:-12deg;">×</span>
+      <span class="sym" style="top:60px;right:16%;color:#16a34a;--r:8deg;animation-delay:.6s;">π</span>
+      <span class="sym" style="top:14px;left:8%;color:#7c3aed;--r:10deg;animation-delay:.3s;">÷</span>
+      <span class="sym" style="top:80px;left:16%;color:#2f56d9;--r:-8deg;animation-delay:.9s;">√</span>
+      <span class="sym" style="top:120px;right:4%;color:#dc2626;--r:6deg;animation-delay:1.2s;">+</span>
+      <span class="sym" style="top:130px;left:3%;color:#ea580c;--r:-6deg;animation-delay:.4s;">x²</span>
+      <div class="logo">🧮</div>
+      <h1><span class="hl">לומדת מתמטיקה</span> – כיתה ז'</h1>
+      <p class="sub">תרגול אינטראקטיבי מותאם אישית בעקבות מבחן המיפוי</p>
+      <div class="cta">✏️ בחרו את המסלול שלכם והתחילו לתרגל! 👇</div>
+    </div>
+    <div class="levels">
+      <button class="levelBtn lv1" onclick="chooseLevel(1)">
+        <span class="em">🌱</span><br>
+        <span class="tag">רמה 1</span>
+        <h2>מתחילים</h2>
+        <p><b>מפתחים "חוש למבנה"</b><br>סדר פעולות, מספרים מכוונים, חזקות ומערכת צירים – צעד אחר צעד עם הרבה המחשות.</p>
+      </button>
+      <button class="levelBtn lv2" onclick="chooseLevel(2)">
+        <span class="em">🚀</span><br>
+        <span class="tag">רמה 2</span>
+        <h2>ממשיכים</h2>
+        <p><b>מבינים לעומק את ה"למה"</b><br>שטח מול היקף, חקר טעויות של תלמידים, מאזניים ומשוואות – בודקים אם מה שנראה נכון... באמת נכון!</p>
+      </button>
+      <button class="levelBtn lv3" onclick="chooseLevel(3)">
+        <span class="em">🏆</span><br>
+        <span class="tag">רמה 3</span>
+        <h2>מתקדמים</h2>
+        <p><b>חושבים כמו מתמטיקאים</b><br>הנמקה מדויקת, קצב השתנות בגרפים, פתרון בכמה דרכים ואפילו המצאת בעיות בעצמכם.</p>
+      </button>
+    </div>
+    <div class="homeFoot">
+      💡 בחרו את המסלול שמתאים לכם היום – אפשר להתייעץ עם המורה.
+      בסוף התרגול מורידים את קובץ הסיכום ושולחים למורה בקלאסרום 🎒
+    </div>
+  </section>
+
+  <!-- ================= REGISTRATION ================= -->
+  <section id="scr-reg" class="screen">
+    <div class="card regCard">
+      <div class="em" id="regEmoji">🌱</div>
+      <h2 id="regTitle">מסלול מתחילים</h2>
+      <div class="sub" id="regSub"></div>
+      <div class="field">
+        <label for="inpName">👤 שם מלא</label>
+        <input id="inpName" type="text" placeholder="לדוגמה: דנה כהן" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="inpKlass">🏫 כיתה</label>
+        <input id="inpKlass" type="text" placeholder="לדוגמה: ז'3" autocomplete="off">
+      </div>
+      <div class="regErr" id="regErr"></div>
+      <button class="bigBtn" id="regGo" style="background:var(--blue);" onclick="startPractice()">מתחילים! ▶</button>
+      <br>
+      <button class="ghostBtn" onclick="goHome()">→ חזרה לבחירת מסלול</button>
+    </div>
+  </section>
+
+  <!-- ================= EXERCISE ================= -->
+  <section id="scr-ex" class="screen">
+    <div class="topbar">
+      <span class="chip" id="tbChip">רמה 1</span>
+      <span class="who" id="tbWho"></span>
+      <span class="dots" id="tbDots"></span>
+      <span class="timer" id="tbTimer">⏱ 00:00</span>
+    </div>
+    <div class="exCard">
+      <h3 class="exTitle"><span class="em" id="exEmoji">✏️</span><span id="exName"></span></h3>
+      <div><span class="exGoal" id="exGoal"></span></div>
+      <div id="exArea"></div>
+      <div class="fb" id="fb"></div>
+      <div class="nextRow" id="nextRow">
+        <button class="bigBtn" id="nextBtn" style="background:var(--blue);" onclick="nextExercise()">לתרגיל הבא ⬅</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SUMMARY ================= -->
+  <section id="scr-sum" class="screen">
+    <div class="sumHead">
+      <span class="em">🎓</span>
+      <h2>סיכום התרגול</h2>
+      <p>כל הכבוד על ההשקעה!</p>
+    </div>
+    <div class="infoChips" id="sumChips"></div>
+    <div class="statGrid" id="sumStats"></div>
+    <div style="overflow-x:auto;"><table class="sumTbl" id="sumTbl"></table></div>
+    <div class="insights" id="sumIns"></div>
+    <div class="storyBox" id="sumStory" style="display:none;"></div>
+    <div class="classroomBox">📥 סיימתם? כל הכבוד! <b>הורידו את קובץ הסיכום ושלחו אותו למורה בקלאסרום</b> 🎒</div>
+    <div class="sumBtns">
+      <button class="bigBtn" style="background:var(--bad);" onclick="downloadPdf()">📄 הורדת הסיכום כ־PDF</button>
+      <button class="bigBtn" style="background:var(--blue);" onclick="goHome()">🏠 למסך הראשי</button>
+    </div>
+    <div class="printHint">בחלון שייפתח בחרו במדפסת <b>"שמירה כ־PDF" / "Save as PDF"</b> ולחצו שמירה.</div>
+  </section>
+
+</div>
+
+<!-- print-only report -->
+<div id="printArea"></div>
+
+<script>
+"use strict";
+/* ================= helpers ================= */
+const $=s=>document.querySelector(s);
+const NS="http://www.w3.org/2000/svg";
+function h(tag,cls,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
+function sv(tag,attrs){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);return e;}
+function show(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));$(id).classList.add("active");window.scrollTo({top:0,behavior:"smooth"});}
+function fmtTime(sec){const m=Math.floor(sec/60),s=sec%60;return String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");}
+function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+/* ================= state ================= */
+let S=null, timerInt=null;
+const LV_META={
+ 1:{name:"מתחילים",emoji:"🌱",colorHex:"#16a34a",
+    sub:"נלמד לקרוא את המבנה של תרגיל לפני שפותרים אותו 🔍"},
+ 2:{name:"ממשיכים",emoji:"🚀",colorHex:"#ea580c",
+    sub:"נבדוק את עצמנו: האם מה שנראה לנו נכון... באמת נכון? 🤔"},
+ 3:{name:"מתקדמים",emoji:"🏆",colorHex:"#7c3aed",
+    sub:"נחשוב כמו מתמטיקאים: נסביר, ננמק ונמציא בעיות בעצמנו 🧠"}
+};
+
+function chooseLevel(lv){
+  S={level:lv,name:"",klass:"",start:0,cur:0,recs:[],story:""};
+  const m=LV_META[lv];
+  $("#regEmoji").textContent=m.emoji;
+  $("#regTitle").textContent="מסלול "+m.name;
+  $("#regSub").textContent=m.sub;
+  $("#regErr").textContent="";
+  $("#inpName").value="";$("#inpKlass").value="";
+  show("#scr-reg");
+  setTimeout(()=>$("#inpName").focus(),200);
+}
+function goHome(){
+  if(timerInt){clearInterval(timerInt);timerInt=null;}
+  S=null; show("#scr-home");
+}
+function startPractice(){
+  const name=$("#inpName").value.trim(), klass=$("#inpKlass").value.trim();
+  if(name.length<2){$("#regErr").textContent="נא לכתוב שם מלא 🙂";return;}
+  if(klass.length<1){$("#regErr").textContent="נא לכתוב את שם הכיתה (למשל ז'2)";return;}
+  S.name=name;S.klass=klass;S.start=Date.now();S.cur=0;
+  S.recs=EXERCISES[S.level].map(e=>({title:e.name,errors:0,attempts:0,revealed:0,completed:false,notes:[],seconds:0,t0:0}));
+  const m=LV_META[S.level];
+  $("#tbChip").textContent="רמה "+S.level+" · "+m.name;
+  $("#tbChip").style.background=m.colorHex;
+  $("#tbWho").innerHTML=esc(name)+" <small>("+esc(klass)+")</small>";
+  if(timerInt)clearInterval(timerInt);
+  timerInt=setInterval(()=>{ $("#tbTimer").textContent="⏱ "+fmtTime(Math.round((Date.now()-S.start)/1000)); },1000);
+  renderExercise();
+  show("#scr-ex");
+}
+
+/* ================= exercise engine ================= */
+function flash(type,msg){
+  const f=$("#fb");
+  f.className="fb show "+type;
+  f.innerHTML=(type==="good"?"✅ ":type==="rev"?"💡 ":"❌ ")+msg;
+}
+function makeApi(rec){
+  function addNote(note){if(note&&!rec.notes.includes(note))rec.notes.push(note);}
+  return {
+    good(msg){rec.attempts++;flash("good",msg);},
+    bad(msg,note){rec.attempts++;rec.errors++;addNote(note);flash("bad",msg);},
+    reveal(msg,note){rec.attempts++;rec.errors++;rec.revealed++;addNote(note);flash("rev",msg);},
+    finish(msg){
+      rec.completed=true;
+      rec.seconds=Math.round((Date.now()-rec.t0)/1000);
+      flash("good",msg||"סיימתם את התרגיל! 🌟");
+      $("#nextRow").classList.add("show");
+      drawDots();
+    },
+    finishRevealed(msg,note){
+      rec.attempts++;rec.errors++;rec.revealed++;addNote(note);
+      rec.completed=true;
+      rec.seconds=Math.round((Date.now()-rec.t0)/1000);
+      flash("rev",msg);
+      $("#nextRow").classList.add("show");
+      drawDots();
+    }
+  };
+}
+function drawDots(){
+  const wrap=$("#tbDots");wrap.innerHTML="";
+  const m=LV_META[S.level];
+  EXERCISES[S.level].forEach((e,i)=>{
+    const d=h("span","dot");
+    d.style.color=m.colorHex;
+    if(S.recs[i].completed)d.classList.add("done");
+    if(i===S.cur)d.classList.add("cur");
+    wrap.appendChild(d);
+  });
+}
+function renderExercise(){
+  const def=EXERCISES[S.level][S.cur];
+  const rec=S.recs[S.cur];
+  rec.t0=Date.now();
+  $("#exEmoji").textContent=def.emoji;
+  $("#exName").textContent="תרגיל "+(S.cur+1)+": "+def.name;
+  $("#exGoal").innerHTML=def.goal;
+  $("#fb").className="fb";
+  $("#nextRow").classList.remove("show");
+  $("#nextBtn").textContent = (S.cur===EXERCISES[S.level].length-1) ? "לסיכום התרגול 🏁" : "לתרגיל הבא ⬅";
+  const area=$("#exArea");area.innerHTML="";
+  drawDots();
+  def.render(area,makeApi(rec),rec);
+}
+function nextExercise(){
+  if(S.cur<EXERCISES[S.level].length-1){S.cur++;renderExercise();window.scrollTo({top:0,behavior:"smooth"});}
+  else finishPractice();
+}
+
+/* ---------- generic step builders ---------- */
+function stepMCQ(parent,api,q,options,onCorrect){
+  const box=h("div","step");
+  box.appendChild(h("div","step-q",q));
+  const wrap=h("div","opts");
+  const btns=[];
+  let wrongs=0;
+  options.forEach(o=>{
+    const b=h("button","opt",o.t);
+    btns.push(b);
+    b.onclick=()=>{
+      if(box.dataset.done)return;
+      if(o.ok){
+        box.dataset.done="1";b.classList.add("right");
+        btns.forEach(x=>x.disabled=true);
+        api.good(o.fb||"נכון מאוד! 🎉");
+        if(onCorrect)onCorrect(o);
+      }else{
+        wrongs++;
+        b.classList.add("wrong");b.disabled=true;
+        if(wrongs>=2){
+          box.dataset.done="1";
+          const okIdx=options.findIndex(x=>x.ok);
+          btns[okIdx].classList.add("right");
+          btns.forEach(x=>x.disabled=true);
+          api.reveal('זה היה הניסיון השני – הנה התשובה הנכונה (מסומנת בירוק ✔): '+(options[okIdx].fb||"")+' ממשיכים הלאה! 💪',o.note);
+          if(onCorrect)onCorrect(options[okIdx]);
+        }else{
+          api.bad((o.fb||"לא מדויק...")+'<br><b>נסו שוב – יש לכם עוד ניסיון! 💪</b>',o.note);
+        }
+      }
+    };
+    wrap.appendChild(b);
+  });
+  box.appendChild(wrap);
+  parent.appendChild(box);
+  box.scrollIntoView({behavior:"smooth",block:"nearest"});
+  return box;
+}
+function stepNum(parent,api,q,answer,onCorrect,opts){
+  opts=opts||{};
+  const box=h("div","step");
+  box.appendChild(h("div","step-q",q));
+  const row=h("div","inrow");
+  const inp=h("input","numin");inp.type="text";inp.dir="ltr";inp.placeholder=opts.ph||"?";
+  const btn=h("button","check","בדיקה");
+  let wrongs=0;
+  const submit=()=>{
+    if(box.dataset.done)return;
+    let v=inp.value.replace(/−/g,"-").replace(/\s/g,"");
+    if(v==="")return;
+    if(parseFloat(v)===answer){
+      box.dataset.done="1";inp.disabled=true;btn.disabled=true;inp.classList.add("ok");
+      api.good(opts.fb||"מדויק! 🎯");
+      if(onCorrect)onCorrect();
+    }else{
+      wrongs++;
+      if(wrongs>=2){
+        box.dataset.done="1";
+        inp.value=String(answer);inp.disabled=true;btn.disabled=true;
+        inp.classList.remove("err");inp.classList.add("rev");
+        api.reveal('התשובה הנכונה היא <span class="ltr"><b>'+answer+'</b></span>. '+(opts.wrongFb||"")+' ממשיכים הלאה! 💪',opts.note);
+        if(onCorrect)onCorrect();
+      }else{
+        inp.classList.add("err");setTimeout(()=>inp.classList.remove("err"),650);
+        api.bad((opts.wrongFb||"לא מדויק. חשבו שוב על החישוב 🤔")+'<br><b>נסו שוב – יש לכם עוד ניסיון! 💪</b>',opts.note);
+      }
+    }
+  };
+  btn.onclick=submit;
+  inp.onkeydown=e=>{if(e.key==="Enter")submit();};
+  row.append(inp,btn);box.appendChild(row);parent.appendChild(box);
+  box.scrollIntoView({behavior:"smooth",block:"nearest"});
+  setTimeout(()=>inp.focus(),150);
+  return box;
+}
+
+/* =====================================================
+   LEVEL 1 – מתחילים
+===================================================== */
+const L1=[
+{
+ name:"מה קודם? קוראים מבנה",emoji:"🔍",
+ goal:"לפני שפותרים – מזהים את סדר הפעולות. מתמטיקה לא נקראת כמו סיפור!",
+ render(root,api){
+   root.appendChild(h("div","bigexp ltr","15 &minus; 3 &middot; (2 &minus; 5)<sup>2</sup>"));
+   root.appendChild(h("p","instr","🖍️ אל תפתרו עדיין! נסמן יחד שלב-שלב מה מבצעים קודם."));
+   stepMCQ(root,api,"שלב 1: מהי הפעולה הראשונה שמבצעים?",[
+     {t:'החיסור <span class="ltr">15 &minus; 3</span>',
+      note:"קריאה משמאל לימין במקום קריאת מבנה (סדר פעולות)",
+      fb:'שימו לב! מתמטיקה אינה נקראת תמיד משמאל לימין כמו עברית. האם יש פעולה חזקה יותר מחיסור? 🤔'},
+     {t:'הכפל <span class="ltr">3 &middot; ( )</span>',
+      note:"קריאה משמאל לימין במקום קריאת מבנה (סדר פעולות)",
+      fb:"כמעט! כפל אכן חזק מחיסור, אבל יש משהו שקודם אפילו לכפל..."},
+     {t:'הסוגריים <span class="ltr">(2 &minus; 5)</span>',ok:true,
+      fb:"מצוין! סוגריים קודמים לכל! 🏆 ממשיכים..."}
+   ],()=>{
+     stepNum(root,api,'שלב 2: כמה זה <span class="ltr">2 &minus; 5</span>?',-3,()=>{
+       stepMCQ(root,api,'שלב 3: קיבלנו <span class="ltr">15 &minus; 3 &middot; (&minus;3)<sup>2</sup></span>. מה הפעולה הבאה?',[
+         {t:'החיסור <span class="ltr">15 &minus; 3</span>',
+          note:"קריאה משמאל לימין במקום קריאת מבנה (סדר פעולות)",
+          fb:"לא! חזקה וכפל קודמים לחיסור. מה הכי חזק כאן?"},
+         {t:'החזקה <span class="ltr">(&minus;3)<sup>2</sup></span>',ok:true,
+          fb:"נכון! חזקה קודמת לכפל ולחיסור. 💪"},
+         {t:'הכפל <span class="ltr">3 &middot; (&minus;3)</span>',
+          note:"בלבול בין דרגות: חזקה קודמת לכפל",
+          fb:"כפל חזק מחיסור, אבל החזקה חזקה עוד יותר!"}
+       ],()=>{
+         stepNum(root,api,'שלב 4: כמה זה <span class="ltr">(&minus;3)<sup>2</sup></span>? (מינוס כפול מינוס...)',9,()=>{
+           stepNum(root,api,'שלב אחרון: <span class="ltr">15 &minus; 3 &middot; 9</span> = ? (זכרו: כפל לפני חיסור!)',-12,()=>{
+             api.finish('מושלם! 🎉 קראתם את המבנה כמו מתמטיקאים אמיתיים: סוגריים ← חזקה ← כפל ← חיסור, והגעתם ל־<span class="ltr">&minus;12</span>.');
+           },{note:"ביצוע חיסור לפני כפל",wrongFb:'רגע! קודם הכפל: <span class="ltr">3 &middot; 9 = 27</span>, ורק אחר כך <span class="ltr">15 &minus; 27</span>.'});
+         },{note:"בלבול בסימן: (−3)² הוא מינוס כפול מינוס",wrongFb:'זכרו: <span class="ltr">(&minus;3)<sup>2</sup> = (&minus;3)&middot;(&minus;3)</span>. מינוס כפול מינוס = פלוס!'});
+       });
+     },{note:"קושי בחיסור מספרים מכוונים",wrongFb:'חשבו על מד חום: היה 2 מעלות וירדנו 5 מעלות... לאן הגענו?'});
+   });
+ }
+},
+{
+ name:"מעלית המספרים",emoji:"🛗",
+ goal:"מספרים מכוונים זה כמו מעלית: חיובי = מעל הקרקע, שלילי = במרתף!",
+ render(root,api){
+   root.appendChild(h("div","bigexp ltr","6 : (&minus;2) &minus; 16"));
+   const vis=h("div","visBox");
+   const ew=h("div","elevWrap");
+   const lbl=h("div","floorLbls");
+   const shaft=h("div","shaft");
+   shaft.appendChild(h("div","ground"));
+   const elev=h("div","elev","🛗");
+   shaft.appendChild(elev);
+   ew.append(lbl,shaft);
+   vis.appendChild(ew);
+   vis.appendChild(h("div",null,'<span class="visHint">מעל הקו החום = קומות מעל הקרקע · מתחת = מרתף 🕳️</span>'));
+   root.appendChild(vis);
+   const topF=6,botF=-20;
+   function place(f){elev.style.top=((topF-f)/(topF-botF)*92)+"%";}
+   [6,3,0,-3,-19].forEach(f=>{
+     const s=h("span",null,'<span class="ltr">'+(f>0?"+":"")+f+"</span>");
+     s.style.top=((topF-f)/(topF-botF)*92+4)+"%";
+     lbl.appendChild(s);
+   });
+   place(0);
+   stepMCQ(root,api,'שלב 1: המעלית בקומה 0. לאיזו קומה מגיעים אחרי <span class="ltr">6 : (&minus;2)</span>?',[
+     {t:'<span class="ltr">3</span> (מעל הקרקע)',
+      note:"בלבול בסימן בחילוק מספרים מכוונים",
+      fb:"עלית לקומה 3 (חיובי)? אבל חילקנו מספר חיובי במספר שלילי! האם התוצאה צריכה להיות מעל או מתחת לאדמה? 🌍"},
+     {t:'<span class="ltr">&minus;3</span> (במרתף)',ok:true,
+      fb:"בדיוק! חיובי לחלק לשלילי = שלילי. המעלית יורדת למרתף 3! 🛗⬇️"},
+     {t:'<span class="ltr">&minus;12</span>',
+      note:"בלבול בין חילוק לכפל",
+      fb:'שימו לב: זה חילוק (:), לא כפל! <span class="ltr">6 : 2 = 3</span>, ועכשיו רק צריך להחליט על הסימן.'}
+   ],()=>{
+     place(-3);
+     stepNum(root,api,'שלב 2: אנחנו במרתף 3, ויורדים עוד 16 קומות: <span class="ltr">&minus;3 &minus; 16</span> = ?',-19,()=>{
+       place(-19);
+       api.finish('מעולה! 🎉 הגעתם למרתף 19: <span class="ltr">6 : (&minus;2) &minus; 16 = &minus;19</span>. המעלית של המספרים המכוונים עובדת מצוין אצלכם!');
+     },{note:"קושי בחיסור מספרים מכוונים (ירידה מתחת לאפס)",wrongFb:"אנחנו כבר במרתף 3 (מתחת לאדמה), ויורדים עוד 16 קומות למטה... כמה עמוק נגיע?"});
+   });
+ }
+},
+{
+ name:"חזקה או כפל? הקופסאות המסתוריות",emoji:"📦",
+ goal:'הסוגריים "אורזים" את המינוס יחד עם המספר. בלעדיהם – המינוס נשאר בחוץ!',
+ render(root,api){
+   root.appendChild(h("p","instr","לחצו על כרטיסייה 🎴 ואז על הקופסה המתאימה לה:"));
+   const cards=[
+     {t:"(&minus;3)&middot;(&minus;3)",box:0},
+     {t:"&minus;(3&middot;3)",box:1},
+     {t:"9",box:0},
+     {t:"&minus;9",box:1}
+   ];
+   const cwrap=h("div","sortCards");
+   const bwrap=h("div","sortBoxes");
+   const gots=[];
+   let sel=null,placed=0;
+   const finalMsg='כל הכרטיסיות במקום! 🏆 הסוד: <span class="ltr">(&minus;3)<sup>2</sup> = 9</span> כי הסוגריים אורזים את המינוס והוא מוכפל בעצמו, אבל <span class="ltr">&minus;3<sup>2</sup> = &minus;9</span> כי שם המינוס נשאר בחוץ!';
+   function placeCard(c){
+     gots[c.box].appendChild(h("span","ltr",c.t));
+     c.el.classList.add("placed");c.el.classList.remove("sel");
+     placed++;sel=null;
+   }
+   [['(&minus;3)<sup>2</sup>'],['&minus;3<sup>2</sup>']].forEach((bt,bi)=>{
+     const b=h("div","sBox");
+     b.appendChild(h("h4","ltr",bt[0]));
+     const got=h("div","got");b.appendChild(got);gots.push(got);
+     b.onclick=()=>{
+       if(sel===null)return;
+       const c=cards[sel];
+       if(c.box===bi){
+         placeCard(c);
+         if(placed===4){
+           api.finish(finalMsg);
+         }else{
+           api.good("נכון! ממשיכים... נשארו "+(4-placed)+" כרטיסיות.");
+         }
+       }else{
+         c.wrongs=(c.wrongs||0)+1;
+         b.classList.add("flash");setTimeout(()=>b.classList.remove("flash"),500);
+         if(c.wrongs>=2){
+           placeCard(c);
+           const msg='זה היה הניסיון השני – הנחנו את הכרטיסייה במקומה הנכון (בקופסה השנייה). זכרו: הסוגריים אורזים את המינוס יחד עם המספר!';
+           if(placed===4)api.finishRevealed(msg+"<br>"+finalMsg,"בלבול בין (−3)² ל־−3²");
+           else api.reveal(msg,"בלבול בין (−3)² ל־−3²");
+         }else{
+           api.bad('לא כאן! 🔎 שימו לב לסוגריים: ב־<span class="ltr">(&minus;3)<sup>2</sup></span> הסוגריים אורזים את המינוס יחד עם ה־3, ולכן המינוס מוכפל בעצמו (מינוס&times;מינוס=פלוס). ב־<span class="ltr">&minus;3<sup>2</sup></span> החזקה חלה רק על ה־3 והמינוס נשאר בחוץ.<br><b>נסו שוב – יש לכם עוד ניסיון! 💪</b>',
+             "בלבול בין (−3)² ל־−3²");
+         }
+       }
+     };
+     bwrap.appendChild(b);
+   });
+   cards.forEach((c,i)=>{
+     const el=h("button","sCard ltr",c.t);
+     el.onclick=()=>{
+       cards.forEach(x=>x.el&&x.el.classList.remove("sel"));
+       el.classList.add("sel");sel=i;
+     };
+     c.el=el;cwrap.appendChild(el);
+   });
+   root.appendChild(cwrap);
+   root.appendChild(bwrap);
+ }
+},
+{
+ name:"המכונית והמסוק – מערכת צירים",emoji:"🚗",
+ goal:'קודם נוסעים על הכביש (ציר x) ורק אז ממריאים או יורדים (ציר y)!',
+ render(root,api){
+   root.appendChild(h("p","instr",'סמנו את הנקודה <span class="ltr"><b>A(&minus;2, 4)</b></span> בלחיצה על הרשת:'));
+   const vis=h("div","visBox");
+   const size=340,u=28,c=size/2;
+   const svg=sv("svg",{viewBox:"0 0 "+size+" "+size,width:"340",height:"340"});
+   for(let i=-5;i<=5;i++){
+     svg.appendChild(sv("line",{x1:c+i*u,y1:c-5*u,x2:c+i*u,y2:c+5*u,stroke:"#d5ddf0","stroke-width":1}));
+     svg.appendChild(sv("line",{y1:c+i*u,x1:c-5*u,y2:c+i*u,x2:c+5*u,stroke:"#d5ddf0","stroke-width":1}));
+   }
+   svg.appendChild(sv("line",{x1:c-5*u-8,y1:c,x2:c+5*u+8,y2:c,stroke:"#26306b","stroke-width":2.5}));
+   svg.appendChild(sv("line",{x1:c,y1:c-5*u-8,x2:c,y2:c+5*u+8,stroke:"#26306b","stroke-width":2.5}));
+   for(let i=-5;i<=5;i++){
+     if(i===0)continue;
+     const tx=sv("text",{x:c+i*u,y:c+16,"font-size":10,"text-anchor":"middle",fill:"#6a76a3"});tx.textContent=i;svg.appendChild(tx);
+     const ty=sv("text",{x:c+8,y:c-i*u+3,"font-size":10,fill:"#6a76a3"});ty.textContent=i;svg.appendChild(ty);
+   }
+   const car=sv("text",{x:c+5*u+8,y:c-10,"font-size":22,"text-anchor":"end"});car.textContent="🚗";svg.appendChild(car);
+   const heli=sv("text",{x:c+14,y:c-5*u+2,"font-size":22});heli.textContent="🚁";svg.appendChild(heli);
+   const xl=sv("text",{x:c+5*u+6,y:c+26,"font-size":13,"font-weight":"bold",fill:"#26306b","text-anchor":"end"});xl.textContent="x";svg.appendChild(xl);
+   const yl=sv("text",{x:c-16,y:c-5*u+4,"font-size":13,"font-weight":"bold",fill:"#26306b"});yl.textContent="y";svg.appendChild(yl);
+   const marker=sv("circle",{cx:0,cy:0,r:0,fill:"#dc2626"});svg.appendChild(marker);
+   let done=false,wrongs=0;
+   function showA(){
+     marker.setAttribute("cx",c+(-2)*u);marker.setAttribute("cy",c-4*u);marker.setAttribute("r",7);
+     const t=sv("text",{x:c+(-2)*u+10,y:c-4*u-8,"font-size":15,"font-weight":"bold",fill:"#dc2626"});t.textContent="A";svg.appendChild(t);
+   }
+   for(let x=-5;x<=5;x++)for(let y=-5;y<=5;y++){
+     const p=sv("circle",{cx:c+x*u,cy:c-y*u,r:8,fill:"#2f56d9",opacity:0,"class":"latt"});
+     p.style.cursor="pointer";
+     p.addEventListener("mouseenter",()=>{if(!done)p.setAttribute("opacity",.35);});
+     p.addEventListener("mouseleave",()=>{if(!done)p.setAttribute("opacity",0);});
+     p.addEventListener("click",()=>{
+       if(done)return;
+       if(x===-2&&y===4){
+         done=true;showA();
+         api.finish('בדיוק! 🎯 קודם נסעתם עם המכונית 🚗 שני צעדים שמאלה (<span class="ltr">x = &minus;2</span>), ואז המראתם עם המסוק 🚁 ארבע קומות למעלה (<span class="ltr">y = 4</span>).');
+       }else{
+         wrongs++;
+         if(wrongs>=2){
+           done=true;showA();
+           api.finishRevealed('זה היה הניסיון השני – סימנו עבורכם את הנקודה <span class="ltr">A(&minus;2, 4)</span> באדום: נוסעים 2 צעדים שמאלה על הכביש 🚗 ואז עולים 4 קומות עם המסוק 🚁.',
+             "קושי בהתמצאות במערכת צירים");
+         }else if(x===4&&y===-2){
+           api.bad('אופס! 🚁🚗 המסוק נוסע על הכביש והמכונית עפה באוויר... התבלבלתם בין הצירים! זכרו: <b>קודם נוסעים על הכביש (ציר x)</b> ורק אז ממריאים או יורדים (ציר y). המספר הראשון בסוגריים הוא של הכביש.<br><b>נסו שוב – יש לכם עוד ניסיון! 💪</b>',
+             "היפוך בין קואורדינטת x לקואורדינטת y");
+         }else{
+           api.bad('לא שם... לחצתם על <span class="ltr">('+x+', '+y+')</span>. זכרו: קודם <span class="ltr">&minus;2</span> על הכביש (שמאלה!) ואז <span class="ltr">4</span> למעלה.<br><b>נסו שוב – יש לכם עוד ניסיון! 💪</b>',
+             "קושי בהתמצאות במערכת צירים");
+         }
+       }
+     });
+     svg.appendChild(p);
+   }
+   vis.appendChild(svg);
+   root.appendChild(vis);
+ }
+},
+{
+ name:"מה מספר הביטוי?",emoji:"💰",
+ goal:'<span class="ltr">2x</span> הוא "גוש" אחד של כפל – אי אפשר לפרק אותו!',
+ render(root,api){
+   root.appendChild(h("div","bigexp ltr","10 &minus; 2x"));
+   root.appendChild(h("p","instr","איזו תמונה מתאימה לביטוי? לחצו עליה:"));
+   const grid=h("div","picCards");
+   const cardA=h("button","picCard",
+     '<div class="pic">💰</div><p><b>תמונה א׳:</b> בקופה יש <span class="ltr">10</span> שקלים,<br>ומוציאים ממנה <b>פעמיים</b> סכום לא ידוע ❓❓</p>');
+   const cardB=h("button","picCard",
+     '<div class="pic">🪙✖️❓</div><p><b>תמונה ב׳:</b> לוקחים <span class="ltr">8</span> שקלים<br>וכופלים אותם בסכום לא ידוע</p>');
+   let done=false,wrongs=0;
+   cardA.onclick=()=>{
+     if(done)return;done=true;
+     cardA.classList.add("right");cardB.disabled=true;cardA.disabled=true;
+     api.finish('נכון מאוד! 🎉 <span class="ltr">10 &minus; 2x</span> פירושו: מ־10 מורידים פעמיים את x. ה־<span class="ltr">2x</span> הוא גוש אחד של כפל, ואי אפשר לחסר <span class="ltr">10 &minus; 2</span> לפני הכפל!');
+   };
+   cardB.onclick=()=>{
+     if(done)return;
+     wrongs++;
+     if(wrongs>=2){
+       done=true;
+       cardA.classList.add("right");cardB.disabled=true;cardA.disabled=true;
+       api.finishRevealed('זה היה הניסיון השני – התשובה הנכונה היא <b>תמונה א׳</b> (מסומנת בירוק): מ־10 שקלים מוציאים פעמיים סכום לא ידוע. ה־<span class="ltr">2x</span> הוא גוש אחד של כפל, והכפל תמיד קודם לחיסור!',
+         "הפרדת המקדם מהמשתנה: חישוב 10−2 לפני הכפל");
+       return;
+     }
+     cardB.classList.add("wrong");setTimeout(()=>cardB.classList.remove("wrong"),700);
+     api.bad('זכרו: <span class="ltr">2x</span> הוא גוש אחד שמייצג כפל! אי אפשר להפריד את ה־2 מה־x ולחשב קודם <span class="ltr">10 &minus; 2 = 8</span>. הכפל תמיד קודם לחיסור.<br><b>נסו שוב – יש לכם עוד ניסיון! 💪</b>',
+       "הפרדת המקדם מהמשתנה: חישוב 10−2 לפני הכפל");
+   };
+   grid.append(cardA,cardB);
+   root.appendChild(grid);
+ }
+}
+];
+
+/* =====================================================
+   LEVEL 2 – ממשיכים
+===================================================== */
+const L2=[
+{
+ name:"לוח המסמרים – שטח מול היקף",emoji:"✂️",
+ goal:"האם גזירת פינה מקטינה גם את ההיקף? בואו נבדוק במו עינינו!",
+ render(root,api){
+   /* board is visible immediately; cutting unlocks after the prediction question */
+   const vis=h("div","visBox");
+   vis.appendChild(h("p","instr",'לפניכם ריבוע <span class="ltr">5&times;5</span> על לוח מסמרים: שטח <span class="ltr">25</span> סמ"ר, היקף <span class="ltr">20</span> ס"מ.'));
+   const u=44,pad=18,n=5;
+   const svg=sv("svg",{viewBox:"0 0 "+(n*u+2*pad)+" "+(n*u+2*pad),width:"280",height:"280"});
+   const cut=new Set();
+   const corners=[[0,0],[4,0],[0,4],[4,4]];
+   const cellsG=sv("g",{});svg.appendChild(cellsG);
+   const areaM=h("div","meter area",'שטח: <b>25</b> סמ"ר');
+   const periM=h("div","meter perim",'היקף: <b>20</b> ס"מ');
+   const hint=h("span","visHint","קודם ענו על שאלת הניחוש למטה 👇");
+   let unlocked=false, concluded=false;
+   function redraw(){
+     cellsG.innerHTML="";
+     for(let x=0;x<n;x++)for(let y=0;y<n;y++){
+       const key=x+","+y;
+       const isCut=cut.has(key);
+       const isCorner=corners.some(c=>c[0]===x&&c[1]===y);
+       const r=sv("rect",{x:pad+x*u,y:pad+y*u,width:u,height:u,
+         fill:isCut?"#fdf6ec":"#b9e3c8",stroke:isCut?"#e0b8b8":"#2f7a52","stroke-width":isCut?1:1.5,
+         "stroke-dasharray":isCut?"4 3":"none"});
+       if(isCorner){
+         r.setAttribute("class","cornerCell");
+         r.addEventListener("click",()=>{
+           if(!unlocked){
+             hint.classList.add("shake");setTimeout(()=>hint.classList.remove("shake"),450);
+             return;
+           }
+           if(cut.has(key))cut.delete(key);else cut.add(key);
+           redraw();update();
+         });
+       }
+       cellsG.appendChild(r);
+       if(isCorner&&!isCut){
+         const t=sv("text",{x:pad+x*u+u/2,y:pad+y*u+u/2+6,"font-size":16,"text-anchor":"middle","pointer-events":"none"});
+         t.textContent="✂️";cellsG.appendChild(t);
+       }
+     }
+     for(let x=0;x<=n;x++)for(let y=0;y<=n;y++)
+       cellsG.appendChild(sv("circle",{cx:pad+x*u,cy:pad+y*u,r:2.5,fill:"#7c89ad"}));
+   }
+   function update(){
+     const area=25-cut.size;
+     areaM.innerHTML='שטח: <b>'+area+'</b> סמ"ר';
+     periM.innerHTML='היקף: <b>20</b> ס"מ';
+     if(cut.size>0&&!concluded){
+       concluded=true;
+       api.good('רואים?! השטח ירד ל־'+area+' אבל ההיקף נשאר בדיוק 20! 🤯 נסו עוד פינות ואז ענו למטה.');
+       stepMCQ(root,api,"אז מה גילינו כאן? מדוע ההיקף לא השתנה?",[
+         {t:'כשגוזרים פינה, הקו "נכנס פנימה" אבל אורכו הכולל נשאר זהה – לכן ההיקף לא משתנה למרות שהשטח קטן',ok:true,
+          fb:"בדיוק! 🏆 הוכחתם לעצמכם ששטח והיקף הם שני דברים שונים לגמרי: השטח הוא התוכן הפנימי, וההיקף הוא אורך קו המתאר. אפשר לשנות אחד בלי לשנות את השני!"},
+         {t:"זו סתם טעות של המחשב, בטוח שההיקף קטן",
+          note:'תפיסה שגויה: "הקטנת שטח מקטינה היקף"',
+          fb:'המחשב לא טועה 🙂 ספרו בעצמכם: במקום 2 צלעות של הפינה (1+1), עכשיו יש 2 צלעות חדשות שנכנסות פנימה (1+1). אותו אורך בדיוק!'},
+         {t:"ההיקף לא השתנה כי גזרנו רק חתיכה קטנה",
+          note:"הבנה חלקית של הקשר בין שטח להיקף",
+          fb:"לא בגלל הגודל! גם אם נגזור פינה ענקית מלבנית – ההיקף יישאר זהה. הסיבה היא שהקו רק משנה כיוון, לא אורך."}
+       ],()=>{
+         api.finish("תרגיל מצוין הושלם! מעכשיו כשמישהו יגיד לכם 'גזרנו – אז ההיקף קטן', תדעו לבדוק אותו 😉");
+       });
+     }
+   }
+   redraw();
+   vis.appendChild(svg);
+   const meters=h("div","meters");meters.append(areaM,periM);
+   vis.appendChild(meters);
+   vis.appendChild(h("div",null,""));
+   vis.lastChild.appendChild(hint);
+   root.appendChild(vis);
+   const predBox=stepMCQ(root,api,'<b>נחשו קודם:</b> אם נגזור ריבוע קטן מהפינה (✂️) – מה יקרה להיקף?',[
+     {t:"ההיקף יקטן – ברור, הרי גזרנו חתיכה!",
+      note:'תפיסה שגויה: "הקטנת שטח מקטינה היקף"',
+      fb:"זו בדיוק המחשבה שרוב האנשים חושבים! עכשיו בדקו אם היא נכונה: לחצו על ✂️ באחת הפינות למעלה וצפו במדדים 👆"},
+     {t:"ההיקף יגדל",
+      fb:"מעניין! עכשיו בדקו: לחצו על ✂️ באחת הפינות למעלה וצפו במדדים 👆"},
+     {t:'ההיקף יישאר בדיוק <span class="ltr">20</span>',ok:true,
+      fb:"ניחוש אמיץ! עכשיו הוכיחו זאת: לחצו על ✂️ באחת הפינות למעלה וצפו במדדים 👆"}
+   ],()=>{});
+   /* any answer (right or wrong) unlocks the scissors */
+   predBox.addEventListener("click",e=>{
+     if(e.target.classList&&e.target.classList.contains("opt")&&!unlocked){
+       unlocked=true;
+       hint.textContent="עכשיו תורכם! לחצו על ✂️ בפינות הריבוע 👆";
+     }
+   });
+ }
+},
+{
+ name:"המורה הצעיר – חקר טעויות",emoji:"🧑‍🏫",
+ goal:"היום אתם המורים! מצאו את השורה השגויה במחברת של יואב התלמיד.",
+ render(root,api){
+   root.appendChild(h("p","instr",'יואב פתר את המשוואה <span class="ltr">5(x &minus; 2) = 15</span>. לחצו על השורה שבה הוא טעה:'));
+   const nb=h("div","notebook");
+   const lines=[
+     {t:"5(x &minus; 2) = 15",bad:false},
+     {t:"5x &minus; 2 = 15",bad:true},
+     {t:"5x = 17",bad:false},
+     {t:"x = 3.4",bad:false}
+   ];
+   let found=false,wrongs=0,badEl=null;
+   function afterFound(){
+     stepMCQ(root,api,"מה בדיוק הטעות של יואב?",[
+           {t:"הוא טעה בחישוב – פשוט התבלבל במספרים",
+            note:"זיהוי שגוי של טעות עקרונית כטעות חישוב",
+            fb:'זו אינה טעות חישוב אלא טעות בחוק מתמטי! חשבו: אם יש 5 קבוצות שכל אחת מכילה <span class="ltr">(x &minus; 2)</span>, כמה פעמים נגרע את ה־2 בסך הכול?'},
+           {t:'הוא כפל את ה־5 רק ב־x ושכח לכפול גם את ה־2: צריך לקבל <span class="ltr">5x &minus; 10</span>',ok:true,
+            fb:'בדיוק! 🏆 לפי חוק הפילוג, ה־5 כופל את <b>כל</b> מה שבסוגריים: <span class="ltr">5&middot;x &minus; 5&middot;2 = 5x &minus; 10</span>. יש 5 קבוצות, ובכל אחת גורעים 2, אז גורעים 10 בסך הכול!'},
+           {t:"אסור בכלל לפתוח סוגריים במשוואה",
+            note:"בלבול לגבי חוק הפילוג",
+            fb:"דווקא מותר ורצוי לפתוח סוגריים – רק צריך לעשות זאת נכון, לפי חוק הפילוג!"}
+         ],()=>{
+           stepNum(root,api,'ועכשיו פתרו נכון: אם <span class="ltr">5x &minus; 10 = 15</span>, אז <span class="ltr">x</span> = ?',5,()=>{
+             api.finish('מעולה! <span class="ltr">x = 5</span>. הייתם מורים מצוינים – זיהיתם את הטעות, הסברתם אותה, ותיקנתם אותה! 🧑‍🏫🌟');
+           },{note:"קושי בפתרון משוואה לאחר פתיחת סוגריים"});
+         });
+   }
+   lines.forEach((ln,i)=>{
+     const d=h("div","nbLine ltr",ln.t);
+     if(ln.bad)badEl=d;
+     d.onclick=()=>{
+       if(found)return;
+       if(ln.bad){
+         found=true;d.classList.add("picked-good");
+         api.good("מצאתם את השורה! עכשיו – למה יואב טעה? 👇");
+         afterFound();
+       }else{
+         wrongs++;
+         d.classList.add("picked-bad");setTimeout(()=>d.classList.remove("picked-bad"),700);
+         if(wrongs>=2){
+           found=true;badEl.classList.add("picked-good");
+           api.reveal('זה היה הניסיון השני – השורה השגויה היא השורה השנייה (מסומנת עכשיו): יואב עבר מ־<span class="ltr">5(x &minus; 2)</span> ל־<span class="ltr">5x &minus; 2</span>. בואו נבין למה זו טעות 👇',
+             "קושי באיתור טעות בתהליך פתרון");
+           afterFound();
+         }else{
+           api.bad("השורה הזו דווקא תקינה ביחס לשורה שמעליה. בדקו: איפה קרה המעבר החשוד? השוו כל שורה לשורה שלפניה 🔎<br><b>נסו שוב – יש לכם עוד ניסיון! 💪</b>",
+             "קושי באיתור טעות בתהליך פתרון");
+         }
+       }
+     };
+     nb.appendChild(d);
+   });
+   const vis=h("div","visBox");vis.appendChild(nb);
+   root.appendChild(vis);
+ }
+},
+{
+ name:"המאזניים והאפס המסתורי",emoji:"⚖️",
+ goal:'מה ההבדל בין "הפתרון הוא אפס" לבין "אין פתרון"? שאלה של משקל!',
+ render(root,api){
+   root.appendChild(h("div","bigexp ltr","5x = 0"));
+   const vis=h("div","visBox");
+   const bal=h("div","balance");
+   bal.appendChild(h("div","beam"));
+   const pans=h("div","pans");
+   pans.appendChild(h("div","pan","📦📦📦📦📦<br><small>5 קופסאות, כל אחת שוקלת <span class='ltr'>x</span></small>"));
+   pans.appendChild(h("div","pan",'<b style="font-size:26px">0</b><br><small>גרם</small>'));
+   bal.appendChild(pans);
+   bal.appendChild(h("div","pillar"));
+   vis.appendChild(bal);
+   vis.appendChild(h("p",null,"המאזניים מאוזנים לגמרי! ⚖️"));
+   root.appendChild(vis);
+   stepMCQ(root,api,"חמש קופסאות זהות שוקלות יחד 0 גרם. כמה שוקלת קופסה אחת?",[
+     {t:"אין פתרון – זה בלתי אפשרי",
+      note:'פירוש שגוי של 5x=0 כ"אין פתרון"',
+      fb:'שימו לב! 5 קופסאות ששוקלות יחד כלום (0)? זה אפשרי במציאות – רק אם כל קופסה <b>ריקה לחלוטין</b>! מתי באמת אין פתרון? כאשר מקבלים דבר בלתי אפשרי כמו <span class="ltr">5 = 0</span>.'},
+     {t:'<span class="ltr">x = 0</span> – כל קופסה ריקה',ok:true,
+      fb:'בדיוק! 🏆 אפס הוא פתרון לגיטימי לגמרי. <span class="ltr">5 &middot; 0 = 0</span> – המשוואה מתקיימת!'},
+     {t:"אינסוף פתרונות – כל מספר מתאים",
+      note:"בלבול בין פתרון יחיד (0) לאינסוף פתרונות",
+      fb:'בדקו: האם <span class="ltr">x = 2</span> מתאים? <span class="ltr">5 &middot; 2 = 10</span>, לא 0! רק מספר אחד ויחיד מקיים את המשוואה.'}
+   ],()=>{
+     stepMCQ(root,api,'שאלת בונוס 🎁: לאיזו משוואה באמת <b>אין פתרון</b>?',[
+       {t:'<span class="ltr">x + 3 = 3</span>',
+        fb:'יש לה פתרון: <span class="ltr">x = 0</span>! שוב האפס הידידותי 🙂'},
+       {t:'<span class="ltr">0 &middot; x = 7</span>',ok:true,
+        fb:'נכון! אפס כפול כל מספר תמיד ייתן 0, אף פעם לא 7. זו משוואה בלתי אפשרית – אין פתרון!'},
+       {t:'<span class="ltr">2x = &minus;8</span>',
+        fb:'יש לה פתרון: <span class="ltr">x = &minus;4</span>. מספר שלילי הוא עדיין פתרון!'}
+     ],()=>{
+       api.finish('נהדר! עכשיו אתם יודעים להבדיל: <span class="ltr">x = 0</span> זה פתרון אמיתי, ו"אין פתרון" זה רק כשמגיעים לדבר בלתי אפשרי! ⚖️🌟');
+     });
+   });
+ }
+},
+{
+ name:"בונים משוואה – למי מוסיפים?",emoji:"📚",
+ goal:"בבעיה מילולית, המשקולת הולכת לצד הקטן – כדי לאזן!",
+ render(root,api){
+   root.appendChild(h("p","instr",'<b>הבעיה:</b> המחיר של מחברת (<span class="ltr">x</span>) קטן ב־<span class="ltr">15</span> שקלים מהמחיר של ספר (<span class="ltr">y</span>).<br>כדי לכתוב משוואה, צריך ששני הצדדים <b>ישתוו</b>. למי נוסיף את המשקולת <span class="ltr">+15</span>?'));
+   const vis=h("div","visBox");
+   const bw=h("div","barsWrap");
+   const colB=h("div","barCol"),colN=h("div","barCol");
+   const barB=h("div","bar");barB.style.cssText="height:170px;background:linear-gradient(#5b8def,#2f56d9);";
+   const wB=h("div","weight","+15");barB.appendChild(wB);
+   const barN=h("div","bar");barN.style.cssText="height:105px;background:linear-gradient(#f5b04c,#ea580c);";
+   const wN=h("div","weight","+15");barN.appendChild(wN);
+   colB.append(barB,h("div","barName",'📕 ספר (<span class="ltr">y</span>)'));
+   colN.append(barN,h("div","barName",'📓 מחברת (<span class="ltr">x</span>)'));
+   bw.append(colB,colN);
+   vis.appendChild(bw);
+   const eqLine=h("div",null,"");eqLine.style.cssText="font-size:22px;font-weight:800;min-height:34px;";
+   vis.appendChild(eqLine);
+   root.appendChild(vis);
+   const btns=h("div","opts");btns.style.justifyContent="center";
+   const b1=h("button","opt",'להניח <span class="ltr">+15</span> על הספר 📕');
+   const b2=h("button","opt",'להניח <span class="ltr">+15</span> על המחברת 📓');
+   let done=false,wrongs=0;
+   function showCorrect(){
+     done=true;
+     b2.classList.add("right");b1.disabled=true;b2.disabled=true;
+     wN.classList.add("show");barN.style.height="170px";
+     eqLine.innerHTML='<span class="ltr" style="color:#16a34a">x + 15 = y ✓</span>';
+   }
+   b1.onclick=()=>{
+     if(done)return;
+     wrongs++;
+     if(wrongs>=2){
+       showCorrect();
+       api.reveal('זה היה הניסיון השני – התשובה הנכונה: מניחים את ה־<span class="ltr">+15</span> על <b>המחברת</b> (הערך הקטן), וכך שני הצדדים משתווים: <span class="ltr">x + 15 = y</span>. עוד שאלה קטנה למטה 👇',
+         "בניית משוואה הפוכה בבעיה מילולית (הוספה לצד הגדול)");
+       followUp();
+       return;
+     }
+     b1.classList.add("wrong");setTimeout(()=>b1.classList.remove("wrong"),700);
+     wB.classList.add("show");barB.style.height="220px";
+     eqLine.innerHTML='<span class="ltr" style="color:#dc2626">x = y + 15 ✗</span>';
+     setTimeout(()=>{wB.classList.remove("show");barB.style.height="170px";eqLine.innerHTML="";},2200);
+     api.bad("הוספתם למי שכבר גדול! 📈 עכשיו הספר גבוה פי שניים מהמחברת והמאזניים לא מאוזנים. כדי לאזן, מוסיפים 15 <b>לערך הקטן</b> (המחברת) – או מחסירים מהגדול.<br><b>נסו שוב – יש לכם עוד ניסיון! 💪</b>",
+       "בניית משוואה הפוכה בבעיה מילולית (הוספה לצד הגדול)");
+   };
+   b2.onclick=()=>{
+     if(done)return;
+     showCorrect();
+     api.good("יפה מאוד! המחברת + 15 השתוותה בדיוק לספר. 👇 עוד שאלה קטנה למטה:");
+     followUp();
+   };
+   function followUp(){
+     stepMCQ(root,api,'איזו משוואה נוספת מתארת נכון את אותו מצב בדיוק?',[
+       {t:'<span class="ltr">y &minus; 15 = x</span>',ok:true,
+        fb:'נכון! להחסיר 15 מהגדול זה בדיוק כמו להוסיף 15 לקטן. שתי הדרכים מאזנות! 🏆'},
+       {t:'<span class="ltr">y + 15 = x</span>',
+        note:"בניית משוואה הפוכה בבעיה מילולית",
+        fb:'זו שוב המשוואה ההפוכה! כאן הוספתם לספר (הגדול) והוא "ברח" עוד יותר למעלה מהמחברת.'},
+       {t:'<span class="ltr">x &minus; 15 = y</span>',
+        note:"בניית משוואה הפוכה בבעיה מילולית",
+        fb:'כאן החסרתם מהקטן... עכשיו המחברת נמוכה עוד יותר מהספר! חסרו דווקא מהגדול.'}
+     ],()=>{
+       api.finish('מצוין! למדתם את סוד המאזניים: קוראים מי גדול ומי קטן, ואז <b>מוסיפים לקטן או מחסירים מהגדול</b>. לא נופלים יותר במלכודת המשוואה ההפוכה! 📚⚖️');
+     });
+   }
+   btns.append(b1,b2);
+   root.appendChild(btns);
+ }
+},
+{
+ name:"מכונות הפישוט",emoji:"⚙️",
+ goal:"רק מכונה אחת מפשטת נכון – השאר נתקעות ומעשנות! 💨",
+ render(root,api){
+   root.appendChild(h("div","bigexp ltr","10 &minus; 2(x &minus; 4)"));
+   root.appendChild(h("p","instr","גררו במחשבה את הביטוי לתוך המכונה שתפשט אותו נכון – ולחצו עליה:"));
+   const ms=h("div","machines");
+   const opts=[
+     {t:"8(x &minus; 4)",fb:'המכונה נתקעה! 💨 עצרתם את חוקי המתמטיקה: חיסרתם <span class="ltr">10 &minus; 2</span> לפני הכפל. זכרו – כפל קודם לחיסור! ה־2 "שייך" לסוגריים שאיתם הוא מוכפל.',
+      note:"הפרדת המקדם: חישוב 10−2 לפני הכפל בסוגריים"},
+     {t:"10 &minus; 2x &minus; 8",fb:'כמעט! 💨 כפלתם נכון את שני האיברים, אבל שימו לב לסימנים: מינוס 2 כפול מינוס 4 נותן <b>פלוס</b> 8! (מינוס &times; מינוס = פלוס)',
+      note:"שגיאת סימן בפתיחת סוגריים (−·− = +)"},
+     {t:"18 &minus; 2x",ok:true,fb:'המכונה עובדת חלק! ⚙️✨ <span class="ltr">10 &minus; 2x + 8 = 18 &minus; 2x</span>. כפלתם את שני האיברים, שמרתם על הסימנים וכינסתם איברים דומים!'},
+     {t:"10 &minus; 2x &minus; 4",fb:'המכונה משתעלת... 💨 כפלתם את ה־2 רק ב־x ושכחתם לכפול גם את ה־4. חוק הפילוג חל על <b>כל</b> מה שבסוגריים!',
+      note:"חוק הפילוג – כפל רק באיבר הראשון"}
+   ];
+   let done=false,wrongs=0,okEl=null;
+   function showOk(){
+     done=true;okEl.classList.add("ok");
+     [...ms.children].forEach(x=>x.disabled=true);
+     okEl.querySelector(".gear").textContent="✅";
+   }
+   opts.forEach(o=>{
+     const m=h("button","machine",'<div class="gear">⚙️</div><div class="mexp ltr">'+o.t+'</div>');
+     if(o.ok)okEl=m;
+     m.onclick=()=>{
+       if(done)return;
+       if(o.ok){
+         showOk();
+         api.finish(o.fb);
+       }else{
+         wrongs++;
+         if(wrongs>=2){
+           m.classList.add("broken");m.querySelector(".gear").textContent="💨";
+           showOk();
+           api.finishRevealed('זה היה הניסיון השני – המכונה הנכונה מסומנת בירוק: <span class="ltr">10 &minus; 2x + 8 = 18 &minus; 2x</span>. כופלים את <b>שני</b> האיברים בסוגריים, זוכרים שמינוס&times;מינוס=פלוס, ומכנסים איברים דומים!',
+             o.note);
+           return;
+         }
+         m.classList.add("broken");
+         m.querySelector(".gear").textContent="💨";
+         setTimeout(()=>{m.classList.remove("broken");m.querySelector(".gear").textContent="⚙️";},1300);
+         api.bad(o.fb+'<br><b>נסו שוב – יש לכם עוד ניסיון! 💪</b>',o.note);
+       }
+     };
+     ms.appendChild(m);
+   });
+   root.appendChild(ms);
+ }
+}
+];
+
+/* =====================================================
+   LEVEL 3 – מתקדמים
+===================================================== */
+const L3=[
+{
+ name:"ממציאים סיפור למשוואה",emoji:"💬",
+ goal:"הפעם לא פותרים משוואה – ממציאים לה סיפור! (Problem Posing)",
+ render(root,api,rec){
+   root.appendChild(h("div","bigexp ltr","2x + 3(x &minus; 15) = 230"));
+   const chat=h("div","chat");
+   root.appendChild(chat);
+   function bot(msg){const b=h("div","bub bot",msg);chat.appendChild(b);chat.scrollTop=chat.scrollHeight;return b;}
+   function me(msg){const b=h("div","bub me");b.textContent=msg;chat.appendChild(b);chat.scrollTop=chat.scrollHeight;}
+   function chatMCQ(q,options,onCorrect){
+     const b=bot(q);
+     const chips=h("div","chips");
+     const cbtns=[];
+     let wrongs=0;
+     options.forEach(o=>{
+       const c=h("button","opt",o.t);c.style.fontSize="14px";
+       cbtns.push(c);
+       c.onclick=()=>{
+         if(b.dataset.done)return;
+         if(o.ok){
+           b.dataset.done="1";c.classList.add("right");
+           cbtns.forEach(x=>x.disabled=true);
+           api.good(o.fb||"נכון!");
+           bot("✔️ "+(o.fb||"נכון!"));
+           if(onCorrect)setTimeout(onCorrect,400);
+         }else{
+           wrongs++;
+           c.classList.add("wrong");c.disabled=true;
+           if(wrongs>=2){
+             b.dataset.done="1";
+             const okIdx=options.findIndex(x=>x.ok);
+             cbtns[okIdx].classList.add("right");
+             cbtns.forEach(x=>x.disabled=true);
+             api.reveal('זה היה הניסיון השני – התשובה הנכונה מסומנת בירוק. '+(options[okIdx].fb||""),o.note);
+             bot('💡 זה היה הניסיון השני, אז אגלה לכם: התשובה הנכונה היא "'+options[okIdx].t+'" – '+(options[okIdx].fb||"")+" ממשיכים!");
+             if(onCorrect)setTimeout(onCorrect,600);
+           }else{
+             api.bad((o.fb||"נסו שוב")+'<br><b>נסו שוב – יש לכם עוד ניסיון! 💪</b>',o.note);
+             bot("🤔 "+(o.fb||"נסו שוב!")+" יש לכם עוד ניסיון!");
+           }
+         }
+       };
+       chips.appendChild(c);
+     });
+     b.appendChild(chips);chat.scrollTop=chat.scrollHeight;
+   }
+   bot('היי! אני צ׳יקו הצ׳טבוט 🤖 היום <b>אתם</b> כותבים את הבעיה!<br>כתבו סיפור מילולי קצר שהמשוואה למעלה מתארת אותו בדיוק.<br>💡 רמז: אולי כרטיסים לקולנוע? 2 כרטיסים מסוג אחד, 3 מסוג זול יותר...');
+   const row=h("div","chatRow");
+   const ta=h("textarea");ta.placeholder="כתבו כאן את הסיפור שלכם... (לפחות 2-3 משפטים)";
+   const send=h("button","check","שליחה 📨");
+   row.append(ta,send);
+   root.appendChild(row);
+   let sent=false;
+   send.onclick=()=>{
+     if(sent)return;
+     const txt=ta.value.trim();
+     if(txt.length<25){
+       bot("הסיפור קצת קצר... הוסיפו פרטים: מה קונים? כמה מכל סוג? מה הסכום הכולל? ✍️");
+       return;
+     }
+     sent=true;S.story=txt;ta.disabled=true;send.disabled=true;
+     me(txt);
+     bot("וואו, קיבלתי את הסיפור! 📖 עכשיו נבדוק יחד אם הוא באמת מתאים למשוואה. שאלה ראשונה:");
+     chatMCQ('במשוואה שלנו, מה מייצג <span class="ltr">x</span>?',[
+       {t:"המחיר הגבוה מבין השניים (למשל כרטיס מבוגר)",ok:true,
+        fb:'נכון! x הוא המחיר הגבוה, כי מהשני מחסירים 15.'},
+       {t:"המחיר הנמוך מבין השניים",note:"קושי בזיהוי המשתנה בבעיה מילולית",
+        fb:'שימו לב: במשוואה מופיע <span class="ltr">(x &minus; 15)</span> – סימן שיש משהו שזול ב־15 מ־x. אז x עצמו הוא דווקא...?'},
+       {t:"הסכום הכולל ששולם",note:"קושי בזיהוי המשתנה בבעיה מילולית",
+        fb:"הסכום הכולל הוא 230 – הוא כבר ידוע! x הוא דווקא הדבר הלא ידוע."}
+     ],()=>{
+       chatMCQ('ומה המשמעות של <span class="ltr">(x &minus; 15)</span> בסיפור?',[
+         {t:'פריט שיקר ב־15 שקלים מ־x',note:"היפוך יחס (יקר/זול) בתרגום מילולי",
+          fb:'הפוך! מינוס 15 אומר <b>זול</b> ב־15. אם בסיפור שלכם כתבתם "יקר ב־15" – תקנו את הסיפור! ✏️'},
+         {t:'פריט שזול ב־15 שקלים מ־x',ok:true,
+          fb:"בדיוק! כרטיס הילד (או הפריט הזול) עולה 15 שקלים פחות."},
+         {t:'15 פריטים פחות',note:"בלבול בין מחיר לכמות",
+          fb:"לא כמות – מחיר! ה־15 מחוסר מהמחיר x, לא ממספר הפריטים."}
+       ],()=>{
+         chatMCQ('ואחרון: מה מספרים לנו המספרים 2, 3 ו־230?',[
+           {t:'קנו 2 מהיקר ו־3 מהזול, ובסך הכול שילמו 230 שקלים',ok:true,
+            fb:"מושלם!"},
+           {t:'קנו 230 פריטים ושילמו 2 או 3 שקלים',note:"בלבול בין מחיר לכמות",
+            fb:"הפוך! המקדמים (2 ו־3) הם הכמויות, וה־230 הוא הסכום הכולל."},
+           {t:'המספרים הם סתם, רק ה־x חשוב',note:"קושי במידול – התעלמות מנתונים",
+            fb:"בבעיה מילולית כל מספר מספר סיפור! בלעדיהם המשוואה לא נבנית."}
+         ],()=>{
+           bot("🏆 כל הכבוד! כתבתם בעיה מילולית ובדקתם שהיא מתאימה למשוואה. זו חשיבה ברמה של מחברי ספרי לימוד! (אגב, הפתרון: x=53... אבל זה כבר סיפור אחר 😉)");
+           api.finish("סיימתם משימת יצירה אמיתית! הסיפור שלכם יופיע בדוח הסיכום למורה. 💬🌟");
+         });
+       });
+     });
+   };
+ }
+},
+{
+ name:"שתי דרכים לשטח אחד",emoji:"📐",
+ goal:"מתמטיקאי טוב מוצא דרך אחת. מתמטיקאי מצוין מוצא שתיים!",
+ render(root,api){
+   root.appendChild(h("p","instr",'לפניכם גינה בצורת <b>ר׳</b> (מידות במטרים). חשבו את שטחה <b>בשתי דרכים שונות</b>:'));
+   const vis=h("div","visBox");
+   const u=30,ox=45,oy=25;
+   const svg=sv("svg",{viewBox:"0 0 330 245",width:"330",height:"245"});
+   const P=pts=>pts.map(p=>(ox+p[0]*u)+","+(oy+p[1]*u)).join(" ");
+   svg.appendChild(sv("polygon",{points:P([[0,0],[5,0],[5,4],[8,4],[8,6],[0,6]]),fill:"#c4e8d0",stroke:"#2f7a52","stroke-width":2.5}));
+   const ovA1=sv("rect",{x:ox,y:oy,width:5*u,height:6*u,fill:"#2f9e63",opacity:0});svg.appendChild(ovA1);
+   const ovA2=sv("rect",{x:ox+5*u,y:oy+4*u,width:3*u,height:2*u,fill:"#ea580c",opacity:0});svg.appendChild(ovA2);
+   const ovB1=sv("rect",{x:ox,y:oy,width:8*u,height:6*u,fill:"none",stroke:"#2f56d9","stroke-width":2.5,"stroke-dasharray":"7 5",opacity:0});svg.appendChild(ovB1);
+   const ovB2=sv("rect",{x:ox+5*u,y:oy,width:3*u,height:4*u,fill:"#dc2626",opacity:0});svg.appendChild(ovB2);
+   function label(x,y,t,color){const e=sv("text",{x:ox+x*u,y:oy+y*u,"font-size":14,"font-weight":"bold","text-anchor":"middle",fill:color||"#26306b"});e.textContent=t;svg.appendChild(e);}
+   label(2.5,-0.25,"5");label(-0.35,3.1,"6");label(4,6.5,"8");
+   label(6.5,3.7,"3");label(5.35,2,"4");label(8.4,5.1,"2");
+   vis.appendChild(svg);
+   root.appendChild(vis);
+   const mA=h("div","step",'<div class="step-q">🟩 דרך 1 – חיבור שטחים: מחלקים את הגינה לשני מלבנים</div>');
+   root.appendChild(mA);
+   ovA1.setAttribute("opacity",.35);ovA2.setAttribute("opacity",.4);
+   stepNum(mA,api,'המלבן הירוק (השמאלי): <span class="ltr">5 &middot; 6</span> = ?',30,()=>{
+     stepNum(mA,api,'המלבן הכתום (הקטן): <span class="ltr">3 &middot; 2</span> = ?',6,()=>{
+       stepNum(mA,api,'סך הכול שטח הגינה: <span class="ltr">30 + 6</span> = ?',36,()=>{
+         api.good('דרך ראשונה הושלמה: 36 מ"ר! עכשיו נבדוק בדרך אחרת לגמרי 👇');
+         methodB();
+       });
+     });
+   });
+   function methodB(){
+     ovA1.setAttribute("opacity",.12);ovA2.setAttribute("opacity",.12);
+     ovB1.setAttribute("opacity",1);ovB2.setAttribute("opacity",.4);
+     const mB=h("div","step",'<div class="step-q">🟦 דרך 2 – חיסור שטחים: משלימים למלבן גדול (המקווקו) ומחסירים את החלק החסר (האדום)</div>');
+     root.appendChild(mB);
+     stepNum(mB,api,'המלבן הגדול המלא: <span class="ltr">8 &middot; 6</span> = ?',48,()=>{
+       stepNum(mB,api,'החלק החסר (האדום): <span class="ltr">3 &middot; 4</span> = ?',12,()=>{
+         stepNum(mB,api,'שטח הגינה: <span class="ltr">48 &minus; 12</span> = ?',36,()=>{
+           api.good('שתי דרכים – אותה תשובה: 36 מ"ר! זה לא מקרה 😊');
+           stepMCQ(root,api,"💭 שאלת רפלקציה (אין תשובה שגויה!): איזו דרך הייתה אלגנטית יותר בעיניכם?",[
+             {t:"דרך החיבור – לחלק ולחבר",ok:true,
+              fb:"בחירה יפה! חלוקה לחלקים היא אסטרטגיה שעובדת כמעט תמיד. העיקר שיש לכם עכשיו שתי דרכים בארגז הכלים!"},
+             {t:"דרך החיסור – להשלים ולהחסיר",ok:true,
+              fb:'בחירה מתוחכמת! לפעמים קל יותר לראות את מה ש"חסר" מאשר את מה שיש. העיקר שיש לכם עכשיו שתי דרכים בארגז הכלים!'}
+           ],()=>{
+             api.finish("זו בדיוק גמישות מחשבתית: אותה בעיה, שתי דרכים, תשובה אחת. מתמטיקאים אמיתיים תמיד שואלים: האם יש עוד דרך? 📐🌟");
+           });
+         });
+       });
+     });
+   }
+ }
+},
+{
+ name:"קצב או ערך? חידת הבריכה",emoji:"📈",
+ goal:'"כמה מים יש" ו"כמה מהר המים עולים" – אלו שתי שאלות שונות לגמרי!',
+ render(root,api){
+   root.appendChild(h("p","instr",'הגרף מראה את גובה המים בבריכה במשך 8 שעות.<br><b>המשימה:</b> לחצו על הקטע בגרף שבו המים עלו <b>בקצב המהיר ביותר</b> ⏩'));
+   const vis=h("div","visBox");
+   const W=380,H=270,ox=52,oy=225;
+   const X=hh=>ox+hh*38, Y=cm=>oy-cm*2.3;
+   const svg=sv("svg",{viewBox:"0 0 "+W+" "+H,width:"380",height:"270"});
+   svg.appendChild(sv("line",{x1:ox,y1:oy,x2:ox+8*38+14,y2:oy,stroke:"#26306b","stroke-width":2}));
+   svg.appendChild(sv("line",{x1:ox,y1:oy,x2:ox,y2:20,stroke:"#26306b","stroke-width":2}));
+   for(let hh=0;hh<=8;hh+=2){const t=sv("text",{x:X(hh),y:oy+16,"font-size":11,"text-anchor":"middle",fill:"#4a5578"});t.textContent=hh;svg.appendChild(t);}
+   for(let cm=0;cm<=80;cm+=20){
+     const t=sv("text",{x:ox-8,y:Y(cm)+4,"font-size":11,"text-anchor":"end",fill:"#4a5578"});t.textContent=cm;svg.appendChild(t);
+     svg.appendChild(sv("line",{x1:ox,y1:Y(cm),x2:X(8),y2:Y(cm),stroke:"#e3e8f6","stroke-width":1}));
+   }
+   const xt=sv("text",{x:X(4),y:oy+34,"font-size":12,fill:"#26306b","font-weight":"bold"});xt.textContent="שעות";svg.appendChild(xt);
+   const yt=sv("text",{x:14,y:16,"font-size":12,fill:"#26306b","font-weight":"bold"});yt.textContent='ס"מ';svg.appendChild(yt);
+   const ptsArr=[[0,0],[2,20],[4,60],[6,60],[8,80]];
+   const segs=[
+     {a:0,b:1,ok:false,slow:true},
+     {a:1,b:2,ok:true},
+     {a:2,b:3,ok:false,flat:true},
+     {a:3,b:4,ok:false,last:true}
+   ];
+   for(const sg of segs){
+     const p1=ptsArr[sg.a],p2=ptsArr[sg.b];
+     sg.line=sv("line",{x1:X(p1[0]),y1:Y(p1[1]),x2:X(p2[0]),y2:Y(p2[1]),stroke:"#2f56d9","stroke-width":4,"stroke-linecap":"round"});
+     svg.appendChild(sg.line);
+   }
+   ptsArr.forEach(p=>svg.appendChild(sv("circle",{cx:X(p[0]),cy:Y(p[1]),r:4,fill:"#2f56d9"})));
+   const maxT=sv("text",{x:X(8),y:Y(80)-10,"font-size":11,fill:"#6a76a3","text-anchor":"end"});maxT.textContent="שיא: 80";svg.appendChild(maxT);
+   let done=false,wrongs=0;
+   const okSeg=segs.find(s=>s.ok);
+   function askRate(){
+     stepNum(root,api,'ומה היה הקצב בקטע הזה? המים עלו 40 ס"מ ב־2 שעות, כלומר ______ ס"מ לשעה:',20,()=>{
+       api.finish('מושלם! 📈 הפרדתם בין <b>ערך הפונקציה</b> (כמה מים יש) לבין <b>קצב השינוי</b> (כמה מהר הם עולים). הקצב מתחבא בשיפוע של הקו – לא בגובה שלו!');
+     },{note:"קושי בחישוב קצב (הפרש לחלק בזמן)",wrongFb:'קצב = כמה עלה לחלק בכמה זמן: <span class="ltr">40 : 2</span> = ?'});
+   }
+   function markOk(){
+     done=true;
+     okSeg.line.setAttribute("stroke","#16a34a");okSeg.line.setAttribute("stroke-width",6);
+   }
+   for(const sg of segs){
+     const p1=ptsArr[sg.a],p2=ptsArr[sg.b];
+     const hit=sv("line",{x1:X(p1[0]),y1:Y(p1[1]),x2:X(p2[0]),y2:Y(p2[1]),stroke:"#000","stroke-width":22,opacity:0});
+     hit.style.cursor="pointer";
+     hit.addEventListener("click",()=>{
+       if(done)return;
+       if(sg.ok){
+         markOk();
+         api.good('בדיוק! בין שעה 2 לשעה 4 המים עלו מ־20 ל־60 ס"מ – זה הקו הכי תלול! עוד שאלה קטנה 👇');
+         askRate();
+         return;
+       }
+       wrongs++;
+       if(wrongs>=2){
+         markOk();
+         api.reveal('זה היה הניסיון השני – הקטע הנכון מסומן עכשיו בירוק: בין שעה 2 לשעה 4, שם הקו הכי תלול (המים עלו מ־20 ל־60 ס"מ). עוד שאלה קטנה 👇',
+           "בלבול בין ערך הפונקציה לקצב השינוי");
+         askRate();
+         return;
+       }
+       sg.line.setAttribute("stroke","#dc2626");setTimeout(()=>sg.line.setAttribute("stroke","#2f56d9"),900);
+       if(sg.last){
+         api.bad('בחרתם את הקטע שבו יש <b>הכי הרבה מים</b> בבריכה (מגיעים ל־80 ס"מ – ערך הפונקציה). אבל נשאלתם על <b>קצב העלייה</b> – חפשו את הקו הכי תלול בגרף! ⛰️<br><b>נסו שוב – יש לכם עוד ניסיון! 💪</b>',
+           "בלבול בין ערך הפונקציה לקצב השינוי");
+       }else if(sg.flat){
+         api.bad('בקטע הזה הקו שטוח לגמרי – המים בכלל לא עלו (קצב 0)! חפשו את הקו הכי תלול.<br><b>נסו שוב – יש לכם עוד ניסיון! 💪</b>',
+           "קושי בקריאת קצב השתנות מגרף");
+       }else{
+         api.bad('כאן המים עלו, אבל לאט: 20 ס"מ ב־2 שעות = 10 ס"מ לשעה. יש קטע תלול יותר! 🔎<br><b>נסו שוב – יש לכם עוד ניסיון! 💪</b>',
+           "קושי בהשוואת שיפועים בגרף");
+       }
+     });
+     svg.appendChild(hit);
+   }
+   vis.appendChild(svg);
+   root.appendChild(vis);
+ }
+},
+{
+ name:"מכונת הנימוקים",emoji:"⚖️",
+ goal:'בגאומטריה, "רואים בציור" זה לא נימוק. משפט מתמטי – זה נימוק!',
+ render(root,api){
+   const vis=h("div","visBox");
+   const svg=sv("svg",{viewBox:"0 0 300 190",width:"300",height:"190"});
+   const cx=150,cy=95;
+   const a1=35*Math.PI/180;
+   const dx=Math.cos(a1)*120,dy=Math.sin(a1)*120;
+   svg.appendChild(sv("line",{x1:cx-dx,y1:cy+dy,x2:cx+dx,y2:cy-dy,stroke:"#26306b","stroke-width":2.5}));
+   svg.appendChild(sv("line",{x1:cx-120,y1:cy-28,x2:cx+120,y2:cy+28,stroke:"#26306b","stroke-width":2.5}));
+   svg.appendChild(sv("path",{d:"M "+(cx+34)+" "+(cy+8)+" A 36 36 0 0 0 "+(cx+29)+" "+(cy-20),fill:"none",stroke:"#dc2626","stroke-width":2.5}));
+   svg.appendChild(sv("path",{d:"M "+(cx-34)+" "+(cy-8)+" A 36 36 0 0 0 "+(cx-29)+" "+(cy+20),fill:"none",stroke:"#2f56d9","stroke-width":2.5}));
+   const t1=sv("text",{x:cx+48,y:cy-2,"font-size":15,"font-weight":"bold",fill:"#dc2626"});t1.textContent="40°";svg.appendChild(t1);
+   const t2=sv("text",{x:cx-62,y:cy+10,"font-size":15,"font-weight":"bold",fill:"#2f56d9"});t2.textContent="α = ?";svg.appendChild(t2);
+   vis.appendChild(svg);
+   root.appendChild(vis);
+   stepNum(root,api,'שני ישרים נחתכים. הזווית האדומה היא <span class="ltr">40°</span>. מהי הזווית הכחולה <span class="ltr">α</span>? (מספר בלבד)',40,()=>{
+     t2.textContent="α = 40°";
+     api.good("נכון! אבל רגע... 🖐️ במתמטיקה תשובה נכונה היא רק חצי עבודה. עכשיו – הנימוק! 👇");
+     const box=h("div","step",'<div class="step-q">🤖 מכונת הנימוקים: השלימו את המשפט –<br>"<span class="ltr">α = 40°</span> <b>מכיוון ש...</b>" בחרו את הנימוק המתמטי התקין:</div>');
+     const chips=h("div","rchips");
+     const opts=[
+       {t:'...הן נראות שוות בשרטוט 👀',
+        note:'הנמקה על סמך "נראה בשרטוט" במקום משפט מתמטי',
+        fb:'בגאומטריה אסור להסתמך על מראה עיניים! שרטוט יכול להטעות (ראו מה קרה לו עכשיו... 👀). אנחנו חייבים משפט מתמטי מוכח.',distort:true},
+       {t:'...הישרים מקבילים זה לזה',
+        note:"בלבול בין זוויות קודקודיות לזוויות בין מקבילים",
+        fb:'הישרים כאן דווקא <b>נחתכים</b> – הם ממש לא מקבילים! נימוקי מקבילים (מתאימות/מתחלפות) לא שייכים לכאן.'},
+       {t:'...זוויות קודקודיות שוות זו לזו',ok:true,
+        fb:'זהו הנימוק המדויק! 🏆 הזוויות נוצרות משני ישרים נחתכים ונמצאות זו מול זו – זוויות קודקודיות, והן תמיד שוות.'},
+       {t:'...סכום הזוויות במשולש הוא 180°',
+        note:"שליפת משפט לא רלוונטי",
+        fb:'משפט נכון – אבל איפה בדיוק ראיתם כאן משולש? 🙂 נימוק חייב להתאים לשרטוט.'}
+     ];
+     const rbtns=[];
+     let wrongs=0;
+     const notebookLine='<br><br>📝 כך כותבים במחברת: <b>טענה:</b> <span class="ltr">α = 40°</span>. <b>נימוק:</b> זוויות קודקודיות שוות זו לזו.';
+     opts.forEach(o=>{
+       const c=h("button","opt",o.t);
+       rbtns.push(c);
+       c.onclick=()=>{
+         if(box.dataset.done)return;
+         if(o.ok){
+           box.dataset.done="1";c.classList.add("right");
+           rbtns.forEach(x=>x.disabled=true);
+           api.finish(o.fb+notebookLine);
+         }else{
+           wrongs++;
+           c.classList.add("wrong");c.disabled=true;
+           if(o.distort){svg.classList.add("distort");setTimeout(()=>svg.classList.remove("distort"),1100);}
+           if(wrongs>=2){
+             box.dataset.done="1";
+             const okIdx=opts.findIndex(x=>x.ok);
+             rbtns[okIdx].classList.add("right");
+             rbtns.forEach(x=>x.disabled=true);
+             api.finishRevealed('זה היה הניסיון השני – הנימוק הנכון מסומן בירוק: <b>זוויות קודקודיות שוות זו לזו</b>. הזוויות נוצרות משני ישרים נחתכים ונמצאות זו מול זו, ולכן הן תמיד שוות.'+notebookLine,
+               o.note);
+           }else{
+             api.bad(o.fb+'<br><b>נסו שוב – יש לכם עוד ניסיון! 💪</b>',o.note);
+           }
+         }
+       };
+       chips.appendChild(c);
+     });
+     box.appendChild(chips);
+     root.appendChild(box);
+     box.scrollIntoView({behavior:"smooth",block:"nearest"});
+   },{note:"קושי בזיהוי זוויות קודקודיות",wrongFb:"רמז: הזוויות נמצאות זו מול זו בין אותם שני ישרים נחתכים..."});
+ }
+},
+{
+ name:"המסלול הלא שגרתי",emoji:"🧭",
+ goal:"כולם פותחים סוגריים. אתם? תמצאו דרך מתוחכמת יותר!",
+ render(root,api){
+   root.appendChild(h("div","bigexp ltr","4x + 2(x + 3) = 24"));
+   root.appendChild(h("p","instr",'<b>מסלול א׳ (המוכר):</b> לפתוח סוגריים, לכנס, לפתור... משעמם 😴<br><b>מסלול ב׳ (האתגר!):</b> לשים לב שאפשר להוציא גורם משותף 2 מכל האגף – בלי לפתוח סוגריים בכלל!'));
+   stepMCQ(root,api,'שלב 1: נוציא גורם משותף 2 מהאגף השמאלי:<br><span class="ltr" style="font-size:20px">4x + 2(x + 3) = 2 &middot; ( ______ )</span><br>מה נכנס בסוגריים?',[
+     {t:'<span class="ltr">2x + x + 3</span>',ok:true,
+      fb:'מבריק! <span class="ltr">4x = 2&middot;2x</span> וגם <span class="ltr">2(x+3) = 2&middot;(x+3)</span>, אז נשאר <span class="ltr">2x + (x+3) = 2x + x + 3 = 3x + 3</span>.'},
+     {t:'<span class="ltr">2x + x + 6</span>',
+      note:"קושי בהוצאת גורם משותף (חלוקת כל גורם ב-2)",
+      fb:'בדקו את עצמכם: אם נכפול בחזרה, <span class="ltr">2&middot;6 = 12</span>, אבל בביטוי המקורי יש רק <span class="ltr">2&middot;3 = 6</span>. ה־(x+3) כבר מוכפל ב־2, לא צריך להכפיל את מה שבפנים!'},
+     {t:'<span class="ltr">4x + x + 3</span>',
+      note:"קושי בהוצאת גורם משותף (שכחת לחלק את 4x)",
+      fb:'אם מוציאים 2 החוצה, גם ה־<span class="ltr">4x</span> חייב להתחלק: <span class="ltr">4x : 2 = 2x</span>.'}
+   ],()=>{
+     stepNum(root,api,'שלב 2: קיבלנו <span class="ltr">2(3x + 3) = 24</span>. נחלק את שני האגפים ב־2:<br><span class="ltr">3x + 3</span> = ?',12,()=>{
+       stepNum(root,api,'שלב 3: <span class="ltr">3x</span> = ?',9,()=>{
+         stepNum(root,api,'ולסיום: <span class="ltr">x</span> = ?',3,()=>{
+           api.finish('חשיבה של מתמטיקאים! 🧠🏆 זיהיתם את המבנה הפנימי (<span class="ltr">2(3x+3)=24</span>) במקום לעבוד כמו רובוט. חילקתם ב־2 עוד לפני שפתחתם סוגריים – זו גמישות מחשבתית ברמה הגבוהה ביותר. ואגב: בדקו שגם מסלול א׳ נותן <span class="ltr">x = 3</span>... כמובן שכן 😉');
+         },{note:"קושי בפתרון משוואה בסיסית"});
+       },{note:"קושי בבידוד המשתנה",wrongFb:'מ־<span class="ltr">3x + 3 = 12</span> נחסיר 3 משני האגפים...'});
+     },{note:"קושי בחלוקת שני אגפים",wrongFb:'חלקו את שני האגפים ב־2: <span class="ltr">24 : 2</span> = ?'});
+   });
+ }
+}
+];
+
+const EXERCISES={1:L1,2:L2,3:L3};
+
+/* =====================================================
+   SUMMARY + PDF
+===================================================== */
+function starsFor(rec){
+  if(!rec.completed)return"⬜ לא הושלם";
+  if(rec.revealed>0)return"💡 הוצגה תשובה";
+  if(rec.errors===0)return"⭐⭐⭐ מצוין";
+  if(rec.errors<=2)return"⭐⭐ טוב";
+  return"⭐ דורש חיזוק";
+}
+function finishPractice(){
+  if(timerInt){clearInterval(timerInt);timerInt=null;}
+  const totalSec=Math.round((Date.now()-S.start)/1000);
+  const m=LV_META[S.level];
+  const done=S.recs.filter(r=>r.completed).length;
+  const perfect=S.recs.filter(r=>r.completed&&r.errors===0).length;
+  const errs=S.recs.reduce((a,r)=>a+r.errors,0);
+  const attemptsTot=S.recs.reduce((a,r)=>a+r.attempts,0);
+  const revealedTot=S.recs.reduce((a,r)=>a+r.revealed,0);
+  const dateStr=new Date().toLocaleDateString("he-IL",{day:"numeric",month:"long",year:"numeric"});
+  const timeStr=new Date().toLocaleTimeString("he-IL",{hour:"2-digit",minute:"2-digit"});
+
+  $("#sumChips").innerHTML=
+    "<span>👤 "+esc(S.name)+"</span>"+
+    "<span>🏫 כיתה "+esc(S.klass)+"</span>"+
+    "<span>"+m.emoji+" רמה "+S.level+" – "+m.name+"</span>"+
+    "<span>📅 "+dateStr+" · "+timeStr+"</span>";
+
+  $("#sumStats").innerHTML=
+    '<div class="statCard"><b style="color:#2f56d9">'+done+"/"+S.recs.length+'</b><small>תרגילים הושלמו</small></div>'+
+    '<div class="statCard"><b style="color:'+m.colorHex+'">'+attemptsTot+'</b><small>ניסיונות מענה</small></div>'+
+    '<div class="statCard"><b style="color:#16a34a">'+perfect+'</b><small>ללא אף טעות</small></div>'+
+    '<div class="statCard"><b style="color:#dc2626">'+errs+'</b><small>סך טעויות בדרך</small></div>'+
+    '<div class="statCard"><b style="color:#d99b00">'+revealedTot+'</b><small>תשובות שנחשפו</small></div>'+
+    '<div class="statCard"><b style="color:#26306b">'+fmtTime(totalSec)+'</b><small>זמן כולל</small></div>';
+
+  let tbl="<tr><th>תרגיל</th><th>סטטוס</th><th>ניסיונות</th><th>טעויות</th><th>תשובות שנחשפו</th><th>זמן</th><th>הערכה</th></tr>";
+  S.recs.forEach((r,i)=>{
+    tbl+="<tr><td>"+(i+1)+". "+esc(r.title)+"</td>"+
+      "<td>"+(r.completed?"✅ הושלם":"⏸ לא הושלם")+"</td>"+
+      "<td>"+r.attempts+"</td>"+
+      "<td>"+r.errors+"</td>"+
+      "<td>"+(r.revealed>0?r.revealed:"–")+"</td>"+
+      "<td>"+(r.completed?fmtTime(r.seconds):"–")+"</td>"+
+      "<td>"+starsFor(r)+"</td></tr>";
+  });
+  $("#sumTbl").innerHTML=tbl;
+
+  const noteCount={};
+  S.recs.forEach(r=>r.notes.forEach(n=>{noteCount[n]=(noteCount[n]||0)+1;}));
+  const notes=Object.keys(noteCount);
+  let ins="<h3>🔎 תובנות למורה – דפוסי טעויות שנצפו בתרגול:</h3>";
+  if(notes.length===0){
+    ins+="<p>לא נצפו דפוסי טעות אופייניים – עבודה מדויקת ועקבית! 🎉</p>";
+  }else{
+    ins+="<ul>"+notes.map(n=>"<li>"+esc(n)+(noteCount[n]>1?" <b>(&times;"+noteCount[n]+")</b>":"")+"</li>").join("")+"</ul>";
+    ins+='<p style="margin:6px 0 0;font-size:13px;">💡 מומלץ לפתוח את השיעור הבא בנקודות אלו.</p>';
+  }
+  $("#sumIns").innerHTML=ins;
+
+  if(S.story){
+    $("#sumStory").style.display="block";
+    $("#sumStory").innerHTML="<b>💬 הסיפור המילולי שחיבר/ה התלמיד/ה (תרגיל 1):</b><br>"+esc(S.story);
+  }else{
+    $("#sumStory").style.display="none";
+  }
+
+  let pr='<h1>🧮 דוח סיכום תרגול – לומדת מתמטיקה כיתה ז\'</h1>';
+  pr+='<div style="color:#555;">תרגול מותאם בעקבות מבחן המיפוי</div>';
+  pr+='<div class="pMeta">'+
+    "<span>שם: "+esc(S.name)+"</span>"+
+    "<span>כיתה: "+esc(S.klass)+"</span>"+
+    "<span>מסלול: רמה "+S.level+" – "+m.name+"</span>"+
+    "<span>תאריך: "+dateStr+" "+timeStr+"</span>"+
+    "<span>זמן כולל: "+fmtTime(totalSec)+"</span></div>";
+  pr+="<h3>תוצאות: הושלמו "+done+" מתוך "+S.recs.length+" תרגילים · "+attemptsTot+" ניסיונות מענה · "+perfect+" ללא טעויות · סך טעויות: "+errs+" · תשובות שנחשפו לאחר שני ניסיונות: "+revealedTot+"</h3>";
+  pr+="<table><tr><th>תרגיל</th><th>סטטוס</th><th>ניסיונות</th><th>טעויות</th><th>תשובות שנחשפו</th><th>זמן</th><th>הערכה</th></tr>";
+  S.recs.forEach((r,i)=>{
+    pr+="<tr><td>"+(i+1)+". "+esc(r.title)+"</td><td>"+(r.completed?"הושלם ✓":"לא הושלם")+"</td><td>"+r.attempts+"</td><td>"+r.errors+"</td><td>"+(r.revealed>0?r.revealed:"–")+"</td><td>"+(r.completed?fmtTime(r.seconds):"–")+"</td><td>"+starsFor(r)+"</td></tr>";
+  });
+  pr+="</table>";
+  pr+='<p style="font-size:11px;color:#555;margin-top:4px;">* "הוצגה תשובה" = התלמיד/ה טעה/תה פעמיים באותה שאלה והמערכת חשפה את התשובה הנכונה והמשיכה הלאה.</p>';
+  pr+='<div class="pIns"><b>תובנות למורה – דפוסי טעויות שנצפו:</b>';
+  if(notes.length===0)pr+="<p>לא נצפו דפוסי טעות אופייניים – עבודה מדויקת ועקבית.</p>";
+  else pr+="<ul>"+notes.map(n=>"<li>"+esc(n)+(noteCount[n]>1?" (×"+noteCount[n]+")":"")+"</li>").join("")+"</ul>";
+  pr+="</div>";
+  if(S.story)pr+='<div class="pIns"><b>הסיפור המילולי שחיבר/ה התלמיד/ה:</b><br>'+esc(S.story)+"</div>";
+  pr+='<p style="margin-top:16px;color:#777;font-size:11px;">הופק אוטומטית על ידי הלומדה הדיגיטלית · תרגול אינטראקטיבי בעקבות מבחן המיפוי</p>';
+  $("#printArea").innerHTML=pr;
+
+  show("#scr-sum");
+}
+function downloadPdf(){window.print();}
+</script>
+</body>
+</html>
