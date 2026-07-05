@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="only light">
-<title>לומדת מתמטיקה – כיתה ז'</title>
+<title>לומדת מתמטיקה – עולים לכיתה ח'</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;800;900&display=swap" rel="stylesheet">
@@ -401,7 +401,7 @@
       <span class="sym" style="top:120px;right:4%;color:#dc2626;--r:6deg;animation-delay:1.2s;">+</span>
       <span class="sym" style="top:130px;left:3%;color:#ea580c;--r:-6deg;animation-delay:.4s;">x²</span>
       <div class="logo">🧮</div>
-      <h1><span class="hl">לומדת מתמטיקה</span> – כיתה ז'</h1>
+      <h1><span class="hl">לומדת מתמטיקה</span> – עולים לכיתה ח'</h1>
       <p class="sub">תרגול אינטראקטיבי מותאם אישית בעקבות מבחן המיפוי</p>
       <div class="cta">✏️ בחרו את המסלול שלכם והתחילו לתרגל! 👇</div>
     </div>
@@ -443,7 +443,7 @@
       </div>
       <div class="field">
         <label for="inpKlass">🏫 כיתה</label>
-        <input id="inpKlass" type="text" placeholder="לדוגמה: ז'3" autocomplete="off">
+        <input id="inpKlass" type="text" placeholder="לדוגמה: ח'3" autocomplete="off">
       </div>
       <div class="regErr" id="regErr"></div>
       <button class="bigBtn" id="regGo" style="background:var(--blue);" onclick="startPractice()">מתחילים! ▶</button>
@@ -536,7 +536,7 @@ function goHome(){
 function startPractice(){
   const name=$("#inpName").value.trim(), klass=$("#inpKlass").value.trim();
   if(name.length<2){$("#regErr").textContent="נא לכתוב שם מלא 🙂";return;}
-  if(klass.length<1){$("#regErr").textContent="נא לכתוב את שם הכיתה (למשל ז'2)";return;}
+  if(klass.length<1){$("#regErr").textContent="נא לכתוב את שם הכיתה (למשל ח'2)";return;}
   S.name=name;S.klass=klass;S.start=Date.now();S.cur=0;
   S.recs=EXERCISES[S.level].map(e=>({title:e.name,errors:0,attempts:0,revealed:0,completed:false,notes:[],seconds:0,t0:0}));
   const m=LV_META[S.level];
@@ -1643,7 +1643,7 @@ function finishPractice(){
     $("#sumStory").style.display="none";
   }
 
-  let pr='<h1>🧮 דוח סיכום תרגול – לומדת מתמטיקה כיתה ז\'</h1>';
+  let pr='<h1>🧮 דוח סיכום תרגול – לומדת מתמטיקה: עולים לכיתה ח\'</h1>';
   pr+='<div style="color:#555;">תרגול מותאם בעקבות מבחן המיפוי</div>';
   pr+='<div class="pMeta">'+
     "<span>שם: "+esc(S.name)+"</span>"+
